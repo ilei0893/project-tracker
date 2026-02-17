@@ -34,6 +34,7 @@ export default function TaskSection({
         .map((task) => {
           return (
             <Task
+              id={task.id}
               title={task.title}
               author={task.author}
               description={task.description}

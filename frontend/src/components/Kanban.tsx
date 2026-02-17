@@ -1,17 +1,35 @@
 import TaskSection from "./TaskSection";
 import CreateTaskForm from "./CreateTaskForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Kanban() {
   const [selectedState, setSelectedState] = useState<string | null>(null);
-  const [tasks, setTasks] = useState([
-    {
-      title: "a task",
-      author: "Ivan Lei",
-      description: "blah blah",
-      state: "Backlog",
-    },
-  ]);
+  const [tasks, setTasks] = useState();
+
+  useEffect(() => {
+    setTasks(getTasks());
+  }, []);
+
+  async function getTasks() {
+    try {
+      const res = await fetch("http://localhost:3000/tasks");
+      const json = await res.json();
+
+      if (!res.ok) {
+        throw new Error("Couldn't get tasks");
+      }
+      console.log(json);
+      return json.map((task: any) => ({
+        id: task.id,
+        title: task.title,
+        description: task.description,
+        state: task.state,
+        author: task.author,
+      }));
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   return (
     <main>
