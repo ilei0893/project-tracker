@@ -61,6 +61,9 @@ main {
 
 .project__listItem {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
   font-family: Inter, Helvetica;
   min-height: 70px;
   height: 100px;
@@ -68,7 +71,7 @@ main {
   border-width: 1px;
   border-color: rgb(124, 124, 124);
   border-radius: 6px;
-  padding: 5px;
+  padding: 10px;
 }
 
 .project__listItem:hover {
@@ -83,4 +86,52 @@ main {
 
 .button__add:hover {
   cursor: pointer;
+}
+
+.modal__hidden {
+  visibility: collapse;
+}
+
+.modal__default {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  position: fixed;
+  min-height: 800px;
+  min-width: 800px;
+  border-radius: 10px;
+  background-color: #e9beff;
+}
+
+.modal__header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1em;
+}
+
+.modal__close {
+  border: none;
+}
+
+.form__default {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form__default input {
+  background-color: #d1aae4;
+  border-radius: 6px;
+  height: 2em;
+}
+
+.form__default textarea {
+  background-color: #d1aae4;
+  border-radius: 6px;
+}
+
+.form__default button {
+  font-family: Inter, Helvetica;
+  border-radius: 6px;
+  height: 2em;
 }

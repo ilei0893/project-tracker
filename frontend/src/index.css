@@ -23,9 +23,22 @@ body {
 button {
   background: none;
   color: black;
+  cursor: pointer;
 }
 
+h3,
 h4,
 h5 {
   margin: 0;
+}
+
+input {
+  background: none;
+  border: transparent;
+}
+
+textarea {
+  background: none;
+  border: transparent;
+  resize: none;
 }

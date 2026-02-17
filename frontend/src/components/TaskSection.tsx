@@ -1,15 +1,46 @@
-import Task from "./Task";
+import type { Dispatch, SetStateAction } from "react";
+import type { TaskData } from "../types/types.ts";
+import Task from "./Task.tsx";
 
-export default function TaskSection({ header }: { header: string }) {
+interface TaskProps {
+  header: string;
+  tasks: TaskData[];
+  setSelectedState: Dispatch<SetStateAction<string | null>>;
+}
+
+export default function TaskSection({
+  header,
+  tasks,
+  setSelectedState,
+}: TaskProps) {
+  function handleClick() {
+    setSelectedState(header);
+  }
+
   return (
     <div className="project__column">
       <header className="project__header">
         <h4>{header}</h4>
-        <button className="button__add" aria-label="add task">
+        <button
+          onClick={handleClick}
+          className="button__add"
+          aria-label="add task"
+        >
           +
         </button>
       </header>
-      <Task title="Task" author="Ivan" />
+      {tasks
+        .filter((task) => task.state === header)
+        .map((task) => {
+          return (
+            <Task
+              title={task.title}
+              author={task.author}
+              description={task.description}
+              state={task.state}
+            />
+          );
+        })}
     </div>
   );
 }
