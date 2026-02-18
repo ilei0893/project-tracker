@@ -2,10 +2,13 @@ import type { TaskData } from "../types/types";
 import { useEffect, useState } from "react";
 import TaskSection from "./TaskSection";
 import CreateTaskForm from "./CreateTaskForm";
+import TaskModal from "./TaskModal";
 
 const apiUrl = import.meta.env.VITE_BASE_URL;
 export default function Kanban() {
   const [selectedState, setSelectedState] = useState<string | null>(null);
+  const [hidden, setHidden] = useState(true);
+  const [currentTask, setCurrentTask] = useState<TaskData | null>(null);
   const [tasks, setTasks] = useState<TaskData[]>([]);
 
   useEffect(() => {
@@ -39,25 +42,34 @@ export default function Kanban() {
         selectedState={selectedState}
         setSelectedState={setSelectedState}
       />
+      <TaskModal task={currentTask} hidden={hidden} setHidden={setHidden} />
       <section className="project__list">
         <TaskSection
           tasks={tasks}
           setSelectedState={setSelectedState}
+          setCurrentTask={setCurrentTask}
+          setHidden={setHidden}
           header="Backlog"
         />
         <TaskSection
           tasks={tasks}
           setSelectedState={setSelectedState}
+          setCurrentTask={setCurrentTask}
+          setHidden={setHidden}
           header="Todo"
         />
         <TaskSection
           tasks={tasks}
           setSelectedState={setSelectedState}
+          setCurrentTask={setCurrentTask}
+          setHidden={setHidden}
           header="In Progress"
         />
         <TaskSection
           tasks={tasks}
           setSelectedState={setSelectedState}
+          setCurrentTask={setCurrentTask}
+          setHidden={setHidden}
           header="Completed"
         />
       </section>
