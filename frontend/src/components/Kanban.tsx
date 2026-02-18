@@ -1,20 +1,21 @@
-import type { TaskData } from "../types/types"
-import { useEffect, useState } from "react"
-import TaskSection from "./TaskSection"
-import CreateTaskForm from "./CreateTaskForm"
+import type { TaskData } from "../types/types";
+import { useEffect, useState } from "react";
+import TaskSection from "./TaskSection";
+import CreateTaskForm from "./CreateTaskForm";
 
+const apiUrl = import.meta.env.VITE_BASE_URL;
 export default function Kanban() {
-  const [selectedState, setSelectedState] = useState<string | null>(null)
-  const [tasks, setTasks] = useState<TaskData[]>([])
+  const [selectedState, setSelectedState] = useState<string | null>(null);
+  const [tasks, setTasks] = useState<TaskData[]>([]);
 
   useEffect(() => {
     const getTasks = async () => {
       try {
-        const res = await fetch("http://localhost:3000/tasks")
-        const json = await res.json()
+        const res = await fetch(`${apiUrl}/tasks`);
+        const json = await res.json();
 
         if (!res.ok) {
-          throw new Error("Couldn't get tasks")
+          throw new Error("Couldn't get tasks");
         }
         const data = json.map((task: TaskData) => ({
           id: task.id,
@@ -22,14 +23,14 @@ export default function Kanban() {
           description: task.description,
           state: task.state,
           author: task.author,
-        }))
-        setTasks(data)
+        }));
+        setTasks(data);
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
-    }
-    getTasks()
-  }, [])
+    };
+    getTasks();
+  }, []);
 
   return (
     <main>
@@ -61,5 +62,5 @@ export default function Kanban() {
         />
       </section>
     </main>
-  )
+  );
 }

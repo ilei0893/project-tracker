@@ -35,6 +35,7 @@ export default function TaskSection({
           return (
             <Task
               id={task.id}
+              key={task.id}
               title={task.title}
               author={task.author}
               description={task.description}
