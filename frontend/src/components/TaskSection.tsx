@@ -38,12 +38,8 @@ export default function TaskSection({
         .map((task) => {
           return (
             <Task
-              id={task.id}
               key={task.id}
-              title={task.title}
-              author={task.author}
-              description={task.description}
-              state={task.state}
+              task={task}
               setCurrentTask={setCurrentTask}
               setHidden={setHidden}
             />

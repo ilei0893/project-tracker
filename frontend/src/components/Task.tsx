@@ -2,28 +2,18 @@ import type { Dispatch, SetStateAction } from "react";
 import type { TaskData } from "../types/types";
 
 interface TaskProps {
-  id: number;
-  title: string;
-  author: string;
+  task: TaskData;
   setCurrentTask: Dispatch<SetStateAction<TaskData | null>>;
   setHidden: Dispatch<SetStateAction<boolean>>;
 }
-export default function Task({
-  id,
-  title,
-  description,
-  author,
-  state,
-  setCurrentTask,
-  setHidden,
-}: TaskProps) {
+export default function Task({ task, setCurrentTask, setHidden }: TaskProps) {
   function fetchTask() {
     const data = {
-      id: id,
-      title: title,
-      description: description,
-      state: state,
-      author: author,
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      state: task.state,
+      author: task.author,
     };
     setCurrentTask(data);
     setHidden((prev) => !prev);
@@ -31,8 +21,8 @@ export default function Task({
 
   return (
     <button onClick={fetchTask} className="project__listItem">
-      <h5>{title}</h5>
-      <span>{author}</span>
+      <h5>{task.title}</h5>
+      <span>{task.author}</span>
     </button>
   );
 }
