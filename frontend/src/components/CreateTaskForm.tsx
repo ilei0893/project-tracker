@@ -15,18 +15,18 @@ export default function CreateTaskForm({
     setSelectedState(null);
   }
 
-  function createTask(formData: FormData) {
-    setTasks((prev) => [
-      ...prev,
-      {
-        title: formData.get("title") as string,
-        author: formData.get("author") as string,
-        description: formData.get("description") as string,
-        state: formData.get("state") as string,
-      },
-    ]);
-    setSelectedState(null);
-  }
+  // function createTask(formData: FormData) {
+  //   setTasks((prev) => [
+  //     ...prev,
+  //     {
+  //       title: formData.get("title") as string,
+  //       author: formData.get("author") as string,
+  //       description: formData.get("description") as string,
+  //       state: formData.get("state") as string,
+  //     },
+  //   ]);
+  //   setSelectedState(null);
+  // }
   return (
     <div
       className={selectedState === null ? "modal__hidden" : "modal__default"}
@@ -41,7 +41,7 @@ export default function CreateTaskForm({
           X
         </button>
       </div>
-      <form action={createTask} className="form__default">
+      <form className="form__default">
         <input
           type="hidden"
           name="state"
