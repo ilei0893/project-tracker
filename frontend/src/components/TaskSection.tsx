@@ -5,6 +5,7 @@ import Task from "./Task.tsx";
 interface TaskSectionProps {
   header: string;
   tasks: TaskData[];
+  setTasks: Dispatch<SetStateAction<TaskData[]>>;
   setSelectedState: Dispatch<SetStateAction<string | null>>;
   setCurrentTask: Dispatch<SetStateAction<TaskData | null>>;
   setHidden: Dispatch<SetStateAction<boolean>>;
@@ -13,6 +14,7 @@ interface TaskSectionProps {
 export default function TaskSection({
   header,
   tasks,
+  setTasks,
   setSelectedState,
   setCurrentTask,
   setHidden,
@@ -44,6 +46,7 @@ export default function TaskSection({
             <Task
               key={task.id}
               task={task}
+              setTasks={setTasks}
               setCurrentTask={setCurrentTask}
               setHidden={setHidden}
             />

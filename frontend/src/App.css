@@ -79,6 +79,15 @@ main {
   cursor: pointer;
 }
 
+.project__listItem div:first-child {
+  display: flex;
+  justify-content: space-between;
+}
+
+.project__listItem button {
+  border: none;
+}
+
 .button__add {
   border-radius: 6px;
   border-width: 1px;

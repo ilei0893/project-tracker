@@ -46,6 +46,7 @@ export default function Kanban() {
       <section className="project__list">
         <TaskSection
           tasks={tasks}
+          setTasks={setTasks}
           setSelectedState={setSelectedState}
           setCurrentTask={setCurrentTask}
           setHidden={setHidden}
@@ -53,12 +54,14 @@ export default function Kanban() {
         />
         <TaskSection
           tasks={tasks}
+          setTasks={setTasks}
           setSelectedState={setSelectedState}
           setCurrentTask={setCurrentTask}
           setHidden={setHidden}
           header="Todo"
         />
         <TaskSection
+          setTasks={setTasks}
           tasks={tasks}
           setSelectedState={setSelectedState}
           setCurrentTask={setCurrentTask}
@@ -67,6 +70,7 @@ export default function Kanban() {
         />
         <TaskSection
           tasks={tasks}
+          setTasks={setTasks}
           setSelectedState={setSelectedState}
           setCurrentTask={setCurrentTask}
           setHidden={setHidden}
