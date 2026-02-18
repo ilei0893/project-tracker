@@ -4,4 +4,6 @@ export type TaskData = {
   author: string;
   description: string;
   state: string;
+  createdAt: string;
+  updatedAt: string;
 };

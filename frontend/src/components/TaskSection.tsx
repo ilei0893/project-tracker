@@ -35,6 +35,10 @@ export default function TaskSection({
       </header>
       {tasks
         .filter((task) => task.state === header)
+        .sort(
+          (a, b) =>
+            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+        )
         .map((task) => {
           return (
             <Task

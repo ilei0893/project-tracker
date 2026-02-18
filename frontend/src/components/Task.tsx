@@ -14,6 +14,8 @@ export default function Task({ task, setCurrentTask, setHidden }: TaskProps) {
       description: task.description,
       state: task.state,
       author: task.author,
+      createdAt: task.createdAt,
+      updatedAt: task.updatedAt,
     };
     setCurrentTask(data);
     setHidden((prev) => !prev);

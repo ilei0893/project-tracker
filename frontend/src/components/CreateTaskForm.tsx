@@ -1,6 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { TaskData } from "../types/types";
 
+const apiUrl = import.meta.env.VITE_BASE_URL;
 interface TaskFormProps {
   selectedState: string | null;
   setTasks: Dispatch<SetStateAction<TaskData[]>>;
@@ -15,18 +16,39 @@ export default function CreateTaskForm({
     setSelectedState(null);
   }
 
-  // function createTask(formData: FormData) {
-  //   setTasks((prev) => [
-  //     ...prev,
-  //     {
-  //       title: formData.get("title") as string,
-  //       author: formData.get("author") as string,
-  //       description: formData.get("description") as string,
-  //       state: formData.get("state") as string,
-  //     },
-  //   ]);
-  //   setSelectedState(null);
-  // }
+  async function createTask(formData: FormData) {
+    const res = await fetch(`${apiUrl}/tasks`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify({
+        title: formData.get("title") as string,
+        author: "Ivan Lei",
+        description: formData.get("description") as string,
+        state: formData.get("state") as string,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error("Post couldnt be created");
+    }
+    const json = await res.json();
+
+    setTasks((prev) => [
+      ...prev,
+      {
+        id: json.id,
+        title: json.title,
+        author: json.author,
+        description: json.description,
+        state: json.state,
+        createdAt: json.created_at,
+        updatedAt: json.updated_at,
+      },
+    ]);
+    setSelectedState(null);
+  }
   return (
     <>
       {selectedState && (
@@ -43,7 +65,7 @@ export default function CreateTaskForm({
                 X
               </button>
             </div>
-            <form className="form__default">
+            <form action={createTask} className="form__default">
               <input
                 type="hidden"
                 name="state"
