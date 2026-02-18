@@ -28,37 +28,42 @@ export default function CreateTaskForm({
   //   setSelectedState(null);
   // }
   return (
-    <div
-      className={selectedState === null ? "modal__hidden" : "modal__default"}
-    >
-      <div className="modal__header">
-        <h3>Create a Task</h3>
-        <button
-          className="modal__close"
-          onClick={closeForm}
-          aria-label="close form"
-        >
-          X
-        </button>
-      </div>
-      <form className="form__default">
-        <input
-          type="hidden"
-          name="state"
-          value={selectedState ?? ""}
-          required
-        />
-        <label htmlFor="title">Title</label>
-        <input id="title" type="textarea" name="title" required></input>
-        <label htmlFor="title">Description</label>
-        <textarea
-          id="description"
-          name="description"
-          cols={50}
-          rows={20}
-        ></textarea>
-        <button>Create Task</button>
-      </form>
-    </div>
+    <>
+      {selectedState && (
+        <>
+          <div onClick={closeForm} className="modal__container"></div>
+          <div className="modal__default">
+            <div className="modal__header">
+              <h3>Create a Task</h3>
+              <button
+                className="modal__close"
+                onClick={closeForm}
+                aria-label="close form"
+              >
+                X
+              </button>
+            </div>
+            <form className="form__default">
+              <input
+                type="hidden"
+                name="state"
+                value={selectedState ?? ""}
+                required
+              />
+              <label htmlFor="title">Title</label>
+              <input id="title" type="textarea" name="title" required></input>
+              <label htmlFor="title">Description</label>
+              <textarea
+                id="description"
+                name="description"
+                cols={50}
+                rows={20}
+              ></textarea>
+              <button>Create Task</button>
+            </form>
+          </div>
+        </>
+      )}
+    </>
   );
 }

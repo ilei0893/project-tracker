@@ -42,6 +42,8 @@ export default function TaskSection({
               key={task.id}
               title={task.title}
               author={task.author}
+              description={task.description}
+              state={task.state}
               setCurrentTask={setCurrentTask}
               setHidden={setHidden}
             />

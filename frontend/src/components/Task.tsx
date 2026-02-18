@@ -8,35 +8,25 @@ interface TaskProps {
   setCurrentTask: Dispatch<SetStateAction<TaskData | null>>;
   setHidden: Dispatch<SetStateAction<boolean>>;
 }
-const apiUrl = import.meta.env.VITE_BASE_URL;
 export default function Task({
-  title,
-  author,
   id,
+  title,
+  description,
+  author,
+  state,
   setCurrentTask,
   setHidden,
 }: TaskProps) {
-  async function fetchTask() {
-    try {
-      const res = await fetch(`${apiUrl}/tasks/${id}`);
-      const json = await res.json();
-
-      if (!res.ok) {
-        throw new Error("Couldn't get task");
-      }
-
-      const data = {
-        id: json.id,
-        title: json.title,
-        description: json.description,
-        state: json.state,
-        author: json.author,
-      };
-      setCurrentTask(data);
-      setHidden((prev) => !prev);
-    } catch (e) {
-      console.log(e);
-    }
+  function fetchTask() {
+    const data = {
+      id: id,
+      title: title,
+      description: description,
+      state: state,
+      author: author,
+    };
+    setCurrentTask(data);
+    setHidden((prev) => !prev);
   }
 
   return (

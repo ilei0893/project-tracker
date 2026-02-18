@@ -14,23 +14,26 @@ export default function TaskModal({ task, hidden, setHidden }: TaskModalProps) {
   return (
     <>
       {!hidden && task && (
-        <div className="modal__default">
-          <div className="modal__header">
-            <h3>{task.title}</h3>
-            <button
-              onClick={closeForm}
-              className="modal__close"
-              aria-label="close form"
-            >
-              X
-            </button>
+        <>
+          <div onClick={closeForm} className="modal__container"></div>
+          <div className="modal__default">
+            <div className="modal__header">
+              <h3>{task.title}</h3>
+              <button
+                onClick={closeForm}
+                className="modal__close"
+                aria-label="close form"
+              >
+                X
+              </button>
+            </div>
+            <div className="form__default">
+              <input type="hidden" name="state" value="true" required />
+              <span>{task.description}</span>
+              <span>{task.author}</span>
+            </div>
           </div>
-          <div className="form__default">
-            <input type="hidden" name="state" value="true" required />
-            <span>{task.description}</span>
-            <span>{task.author}</span>
-          </div>
-        </div>
+        </>
       )}
     </>
   );
