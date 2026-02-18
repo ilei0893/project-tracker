@@ -35,6 +35,11 @@ export default function Kanban() {
     getTasks();
   }, []);
 
+  function onSelect(task: TaskData) {
+    setCurrentTask(task);
+    setHidden((prev) => !prev);
+  }
+
   return (
     <main>
       <CreateTaskForm
@@ -48,32 +53,28 @@ export default function Kanban() {
           tasks={tasks}
           setTasks={setTasks}
           setSelectedState={setSelectedState}
-          setCurrentTask={setCurrentTask}
-          setHidden={setHidden}
+          onSelect={onSelect}
           header="Backlog"
         />
         <TaskSection
           tasks={tasks}
           setTasks={setTasks}
           setSelectedState={setSelectedState}
-          setCurrentTask={setCurrentTask}
-          setHidden={setHidden}
+          onSelect={onSelect}
           header="Todo"
         />
         <TaskSection
           setTasks={setTasks}
           tasks={tasks}
           setSelectedState={setSelectedState}
-          setCurrentTask={setCurrentTask}
-          setHidden={setHidden}
+          onSelect={onSelect}
           header="In Progress"
         />
         <TaskSection
           tasks={tasks}
           setTasks={setTasks}
           setSelectedState={setSelectedState}
-          setCurrentTask={setCurrentTask}
-          setHidden={setHidden}
+          onSelect={onSelect}
           header="Completed"
         />
       </section>

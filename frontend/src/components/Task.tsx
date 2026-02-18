@@ -5,27 +5,11 @@ const apiUrl = import.meta.env.VITE_BASE_URL;
 interface TaskProps {
   task: TaskData;
   setTasks: Dispatch<SetStateAction<TaskData[]>>;
-  setCurrentTask: Dispatch<SetStateAction<TaskData | null>>;
-  setHidden: Dispatch<SetStateAction<boolean>>;
+  onSelect: (task: TaskData) => void;
 }
-export default function Task({
-  task,
-  setTasks,
-  setCurrentTask,
-  setHidden,
-}: TaskProps) {
+export default function Task({ task, setTasks, onSelect }: TaskProps) {
   function getTask() {
-    const data = {
-      id: task.id,
-      title: task.title,
-      description: task.description,
-      state: task.state,
-      author: task.author,
-      createdAt: task.createdAt,
-      updatedAt: task.updatedAt,
-    };
-    setCurrentTask(data);
-    setHidden((prev) => !prev);
+    onSelect(task);
   }
 
   async function deleteTask(e: React.MouseEvent) {

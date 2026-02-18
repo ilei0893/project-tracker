@@ -7,8 +7,7 @@ interface TaskSectionProps {
   tasks: TaskData[];
   setTasks: Dispatch<SetStateAction<TaskData[]>>;
   setSelectedState: Dispatch<SetStateAction<string | null>>;
-  setCurrentTask: Dispatch<SetStateAction<TaskData | null>>;
-  setHidden: Dispatch<SetStateAction<boolean>>;
+  onSelect: (task: TaskData) => void;
 }
 
 export default function TaskSection({
@@ -16,8 +15,7 @@ export default function TaskSection({
   tasks,
   setTasks,
   setSelectedState,
-  setCurrentTask,
-  setHidden,
+  onSelect,
 }: TaskSectionProps) {
   function handleClick() {
     setSelectedState(header);
@@ -47,8 +45,7 @@ export default function TaskSection({
               key={task.id}
               task={task}
               setTasks={setTasks}
-              setCurrentTask={setCurrentTask}
-              setHidden={setHidden}
+              onSelect={onSelect}
             />
           );
         })}
