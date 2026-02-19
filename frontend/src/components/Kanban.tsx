@@ -1,6 +1,7 @@
 import type { TaskData } from "../types/types";
 import { useEffect, useRef, useState } from "react";
 import TaskSection from "./TaskSection";
+import Task from "./Task";
 import CreateTaskForm from "./CreateTaskForm";
 import TaskModal from "./TaskModal";
 
@@ -75,14 +76,29 @@ export default function Kanban() {
           return (
             <TaskSection
               key={state}
-              tasks={tasks}
-              setTasks={setTasks}
               setSelectedState={setSelectedState}
-              onSelect={onSelect}
               onDrop={onDrop}
-              setDragging={setDragging}
               state={state}
-            />
+            >
+              {tasks
+                .filter((task) => task.state === state)
+                .sort(
+                  (a, b) =>
+                    new Date(b.updatedAt).getTime() -
+                    new Date(a.updatedAt).getTime(),
+                )
+                .map((task) => {
+                  return (
+                    <Task
+                      key={task.id}
+                      task={task}
+                      setTasks={setTasks}
+                      setDragging={setDragging}
+                      onSelect={onSelect}
+                    />
+                  );
+                })}
+            </TaskSection>
           );
         })}
       </section>

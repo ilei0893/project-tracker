@@ -1,25 +1,17 @@
-import { type Dispatch, type SetStateAction } from "react";
-import type { TaskData } from "../types/types.ts";
-import Task from "./Task.tsx";
+import { type Dispatch, type SetStateAction, type ReactNode } from "react";
 
 interface TaskSectionProps {
   state: string;
-  tasks: TaskData[];
-  setTasks: Dispatch<SetStateAction<TaskData[]>>;
   setSelectedState: Dispatch<SetStateAction<string | null>>;
-  setDragging: (task: TaskData | null) => void;
   onDrop: (state: string) => void;
-  onSelect: (task: TaskData) => void;
+  children: ReactNode;
 }
 
 export default function TaskSection({
   state,
-  tasks,
-  setTasks,
-  setDragging,
   onDrop,
   setSelectedState,
-  onSelect,
+  children,
 }: TaskSectionProps) {
   function handleClick() {
     setSelectedState(state);
@@ -41,23 +33,7 @@ export default function TaskSection({
           +
         </button>
       </header>
-      {tasks
-        .filter((task) => task.state === state)
-        .sort(
-          (a, b) =>
-            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
-        )
-        .map((task) => {
-          return (
-            <Task
-              key={task.id}
-              task={task}
-              setTasks={setTasks}
-              setDragging={setDragging}
-              onSelect={onSelect}
-            />
-          );
-        })}
+      {children}
     </div>
   );
 }
