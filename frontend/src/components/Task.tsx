@@ -1,16 +1,30 @@
-import type { Dispatch, SetStateAction } from "react";
+import { type Dispatch, type SetStateAction } from "react";
 import type { TaskData } from "../types/types";
 
 const apiUrl = import.meta.env.VITE_BASE_URL;
 interface TaskProps {
   task: TaskData;
   setTasks: Dispatch<SetStateAction<TaskData[]>>;
+  setDragging: (task: TaskData | null) => void;
   onSelect: (task: TaskData) => void;
 }
-export default function Task({ task, setTasks, onSelect }: TaskProps) {
+export default function Task({
+  task,
+  setTasks,
+  onSelect,
+  setDragging,
+}: TaskProps) {
   function getTask() {
     onSelect(task);
   }
+
+  const handleDragStart = () => {
+    setDragging(task);
+  };
+
+  const handleDragEnd = () => {
+    setDragging(null);
+  };
 
   async function deleteTask(e: React.MouseEvent) {
     e.stopPropagation();
@@ -30,7 +44,13 @@ export default function Task({ task, setTasks, onSelect }: TaskProps) {
   }
 
   return (
-    <button onClick={getTask} className="project__listItem">
+    <button
+      draggable
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onClick={getTask}
+      className="project__listItem"
+    >
       <div>
         <h5>{task.title}</h5>
         <button onClick={deleteTask}>
