@@ -57,7 +57,9 @@ export default function Task({
           role="button"
           tabIndex={0}
           onClick={deleteTask}
-          onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") deleteTask(e as never); }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") deleteTask(e as never);
+          }}
           className="project__listItem-delete"
           aria-label="Delete task"
         >

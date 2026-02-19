@@ -1,4 +1,4 @@
-import type { TaskData } from "../types/types";
+import type { TaskData, TaskResponse } from "../types/types";
 import { useEffect, useRef, useState } from "react";
 import TaskSection from "./TaskSection";
 import Task from "./Task";
@@ -24,7 +24,16 @@ export default function Kanban() {
         if (!res.ok) {
           throw new Error("Couldn't get tasks");
         }
-        setTasks(json);
+        const normalizedJson = json.map((taskItem: TaskResponse) => ({
+          id: taskItem.id,
+          title: taskItem.title,
+          description: taskItem.description,
+          author: taskItem.author,
+          state: taskItem.state,
+          createdAt: taskItem.created_at,
+          updatedAt: taskItem.updated_at,
+        }));
+        setTasks(normalizedJson);
       } catch (e) {
         console.log(e);
       }
@@ -43,16 +52,26 @@ export default function Kanban() {
     draggingState.current = state;
     const id = draggingId.current;
 
-    setTasks((prev) =>
-      prev.map((task) => (task.id === id ? { ...task, state } : task)),
-    );
-
     try {
-      await fetch(`${apiUrl}/tasks/${id}`, {
+      const res = await fetch(`${apiUrl}/tasks/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ task: { state } }),
       });
+      const json = await res.json();
+
+      setTasks((prev) =>
+        prev.map((task) =>
+          task.id === id
+            ? {
+                ...task,
+                state,
+                createdAt: json.created_at,
+                updatedAt: json.updated_at,
+              }
+            : task,
+        ),
+      );
     } catch (e) {
       console.log(e);
     }

@@ -12,10 +12,13 @@ function stateClass(state: string) {
 }
 
 function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("en-US", {
+  return new Date(dateStr).toLocaleString("en-US", {
     month: "short",
     day: "numeric",
     year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
   });
 }
 
@@ -31,7 +34,11 @@ export default function TaskModal({ task, hidden, setHidden }: TaskModalProps) {
           <div className="modal__default">
             <div className="modal__header">
               <h3 className="modal__title">{task.title}</h3>
-              <button onClick={closeForm} className="modal__close" aria-label="close">
+              <button
+                onClick={closeForm}
+                className="modal__close"
+                aria-label="close"
+              >
                 ✕
               </button>
             </div>
@@ -40,7 +47,9 @@ export default function TaskModal({ task, hidden, setHidden }: TaskModalProps) {
                 <p className="modal__section-label">Description</p>
                 <p className="modal__description">
                   {task.description || (
-                    <span className="modal__empty">No description provided.</span>
+                    <span className="modal__empty">
+                      No description provided.
+                    </span>
                   )}
                 </p>
               </div>
@@ -55,11 +64,15 @@ export default function TaskModal({ task, hidden, setHidden }: TaskModalProps) {
                 </div>
                 <div className="metadata__item">
                   <span className="metadata__label">Created</span>
-                  <span className="metadata__value">{formatDate(task.createdAt)}</span>
+                  <span className="metadata__value">
+                    {formatDate(task.createdAt)}
+                  </span>
                 </div>
                 <div className="metadata__item">
                   <span className="metadata__label">Updated</span>
-                  <span className="metadata__value">{formatDate(task.updatedAt)}</span>
+                  <span className="metadata__value">
+                    {formatDate(task.updatedAt)}
+                  </span>
                 </div>
               </aside>
             </div>
