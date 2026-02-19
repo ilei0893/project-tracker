@@ -2,6 +2,11 @@ import type { Dispatch, SetStateAction } from "react";
 import type { TaskData } from "../types/types";
 
 const apiUrl = import.meta.env.VITE_BASE_URL;
+
+function stateClass(state: string) {
+  return `state__badge state__badge--${state.toLowerCase().replace(/\s+/g, "-")}`;
+}
+
 interface TaskFormProps {
   selectedState: string | null;
   setTasks: Dispatch<SetStateAction<TaskData[]>>;
@@ -53,35 +58,65 @@ export default function CreateTaskForm({
     <>
       {selectedState && (
         <>
-          <div onClick={closeForm} className="modal__container"></div>
+          <div onClick={closeForm} className="modal__container" />
           <div className="modal__default">
             <div className="modal__header">
-              <h3>Create a Task</h3>
+              <h3 className="modal__title">New Task</h3>
               <button
                 className="modal__close"
                 onClick={closeForm}
-                aria-label="close form"
+                aria-label="close"
               >
-                X
+                ✕
               </button>
             </div>
-            <form action={createTask} className="form__default">
+            <form action={createTask} className="modal__body">
               <input
                 type="hidden"
                 name="state"
                 value={selectedState ?? ""}
                 required
               />
-              <label htmlFor="title">Title</label>
-              <input id="title" type="textarea" name="title" required></input>
-              <label htmlFor="title">Description</label>
-              <textarea
-                id="description"
-                name="description"
-                cols={50}
-                rows={20}
-              ></textarea>
-              <button>Create Task</button>
+              <div className="modal__main">
+                <label className="form__label" htmlFor="title">
+                  Title
+                </label>
+                <input
+                  id="title"
+                  name="title"
+                  type="text"
+                  className="form__input"
+                  placeholder="Story title..."
+                  required
+                />
+                <label className="form__label" htmlFor="description">
+                  Description
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  className="form__textarea"
+                  placeholder="Add a description..."
+                  rows={10}
+                />
+              </div>
+              <aside className="modal__aside">
+                <div className="metadata__item">
+                  <span className="metadata__label">State</span>
+                  <span className={stateClass(selectedState)}>
+                    {selectedState}
+                  </span>
+                </div>
+                <div className="metadata__item">
+                  <span className="metadata__label">Author</span>
+                  <span className="metadata__value">Ivan Lei</span>
+                </div>
+                <div className="form__submit">
+                  <button type="submit" className="button__create">
+                    Create Task
+                  </button>
+                </div>
+              </aside>
             </form>
           </div>
         </>

@@ -7,6 +7,18 @@ interface TaskModalProps {
   setHidden: Dispatch<SetStateAction<boolean>>;
 }
 
+function stateClass(state: string) {
+  return `state__badge state__badge--${state.toLowerCase().replace(/\s+/g, "-")}`;
+}
+
+function formatDate(dateStr: string) {
+  return new Date(dateStr).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+}
+
 export default function TaskModal({ task, hidden, setHidden }: TaskModalProps) {
   function closeForm() {
     setHidden(true);
@@ -15,22 +27,41 @@ export default function TaskModal({ task, hidden, setHidden }: TaskModalProps) {
     <>
       {!hidden && task && (
         <>
-          <div onClick={closeForm} className="modal__container"></div>
+          <div onClick={closeForm} className="modal__container" />
           <div className="modal__default">
             <div className="modal__header">
-              <h3>{task.title}</h3>
-              <button
-                onClick={closeForm}
-                className="modal__close"
-                aria-label="close form"
-              >
-                X
+              <h3 className="modal__title">{task.title}</h3>
+              <button onClick={closeForm} className="modal__close" aria-label="close">
+                ✕
               </button>
             </div>
-            <div className="form__default">
-              <input type="hidden" name="state" value="true" required />
-              <span>{task.description}</span>
-              <span>{task.author}</span>
+            <div className="modal__body">
+              <div className="modal__main">
+                <p className="modal__section-label">Description</p>
+                <p className="modal__description">
+                  {task.description || (
+                    <span className="modal__empty">No description provided.</span>
+                  )}
+                </p>
+              </div>
+              <aside className="modal__aside">
+                <div className="metadata__item">
+                  <span className="metadata__label">State</span>
+                  <span className={stateClass(task.state)}>{task.state}</span>
+                </div>
+                <div className="metadata__item">
+                  <span className="metadata__label">Author</span>
+                  <span className="metadata__value">{task.author}</span>
+                </div>
+                <div className="metadata__item">
+                  <span className="metadata__label">Created</span>
+                  <span className="metadata__value">{formatDate(task.createdAt)}</span>
+                </div>
+                <div className="metadata__item">
+                  <span className="metadata__label">Updated</span>
+                  <span className="metadata__value">{formatDate(task.updatedAt)}</span>
+                </div>
+              </aside>
             </div>
           </div>
         </>
