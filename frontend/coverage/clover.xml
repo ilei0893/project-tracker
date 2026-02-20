@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1771563403020" clover="3.2.0">
+  <project timestamp="1771563403020" name="All files">
+    <metrics statements="15" coveredstatements="15" conditionals="6" coveredconditionals="4" methods="8" coveredmethods="8" elements="29" coveredelements="27" complexity="0" loc="15" ncloc="15" packages="1" files="1" classes="1"/>
+    <file name="Task.tsx" path="/home/ilei0893/task-manager/frontend/src/components/Task.tsx">
+      <metrics statements="15" coveredstatements="15" conditionals="6" coveredconditionals="4" methods="8" coveredmethods="8"/>
+      <line num="4" count="1" type="stmt"/>
+      <line num="18" count="1" type="stmt"/>
+      <line num="21" count="7" type="stmt"/>
+      <line num="22" count="1" type="stmt"/>
+      <line num="25" count="7" type="stmt"/>
+      <line num="26" count="1" type="stmt"/>
+      <line num="30" count="3" type="stmt"/>
+      <line num="31" count="3" type="stmt"/>
+      <line num="32" count="3" type="stmt"/>
+      <line num="36" count="3" type="cond" truecount="2" falsecount="0"/>
+      <line num="37" count="1" type="stmt"/>
+      <line num="40" count="4" type="stmt"/>
+      <line num="42" count="1" type="stmt"/>
+      <line num="46" count="7" type="stmt"/>
+      <line num="61" count="1" type="cond" truecount="2" falsecount="2"/>
+    </file>
+  </project>
+</coverage>
