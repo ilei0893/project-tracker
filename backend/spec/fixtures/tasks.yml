@@ -1,0 +1,11 @@
+one:
+  title: First Task
+  description: This is the first test task
+  author: testuser
+  state: pending
+
+two:
+  title: Second Task
+  description: This is the second test task
+  author: testuser
+  state: completed
