@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./App.css";
 import Kanban from "./components/Kanban.tsx";
 import Navbar from "./components/Navbar.tsx";
