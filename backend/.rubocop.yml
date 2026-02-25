@@ -4,6 +4,13 @@ inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 AllCops:
   Exclude:
     - "db/**/*"
+    - "config/**/*"
+    - "spec/*_helper.rb"
+    - "Gemfile"
+    - "Rakefile"
+    - "config.ru"
 
 Layout/SpaceInsideArrayLiteralBrackets:
   Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: true
