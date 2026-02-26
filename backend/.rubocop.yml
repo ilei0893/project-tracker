@@ -2,6 +2,7 @@
 inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 
 AllCops:
+  NewCops: enable
   Exclude:
     - "db/**/*"
     - "config/**/*"
@@ -10,9 +11,43 @@ AllCops:
     - "Rakefile"
     - "config.ru"
 
+Layout/LineLength:
+  Enabled: true
 Layout/IndentationConsistency:
   Enabled: true
 Layout/SpaceInsideArrayLiteralBrackets:
   Enabled: false
 Style/FrozenStringLiteralComment:
+  Enabled: true
+  Exclude:
+    - "bin/**/*"
+    - "config/**/*"
+    - "db/**/*"
+    - "spec/*_helper.rb"
+    - "Gemfile"
+    - "Rakefile"
+    - "config.ru"
+Layout/FirstHashElementIndentation:
+  Enabled: true
+Layout/ArgumentAlignment:
+  Enabled: true
+Layout/ClosingParenthesisIndentation:
+  Enabled: true
+Layout/ClosingHeredocIndentation:
+  Enabled: true
+Layout/CommentIndentation:
+  Enabled: true
+Layout/MultilineMethodCallBraceLayout:
+  Enabled: true
+Layout/HashAlignment:
+  Enabled: true
+Layout/EmptyLinesAroundArguments:
+  Enabled: true
+Layout/MultilineMethodArgumentLineBreaks:
+  Enabled: true
+Layout/FirstMethodArgumentLineBreak:
+  Enabled: true
+Layout/FirstHashElementLineBreak:
+  Enabled: true
+Layout/MultilineHashKeyLineBreaks:
   Enabled: true

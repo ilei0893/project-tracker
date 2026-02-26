@@ -17,7 +17,14 @@ RSpec.describe TasksController, type: :request do
   describe "POST /tasks" do
     it "creates a new task" do
       expect {
-        post tasks_url, params: { task: { author: task.author, description: task.description, state: task.state, title: task.title } }, as: :json
+        post tasks_url,
+             params: {
+               task: {
+                 author: task.author,
+                 description: task.description,
+                 state: task.state,
+                 title: task.title } },
+             as: :json
       }.to change(Task, :count).by(1)
 
       expect(response).to have_http_status(:created)
@@ -33,7 +40,14 @@ RSpec.describe TasksController, type: :request do
 
   describe "PATCH /tasks/:id" do
     it "updates the task" do
-      patch task_url(task), params: { task: { author: task.author, description: task.description, state: task.state, title: task.title } }, as: :json
+      patch task_url(task),
+            params: {
+              task: {
+                author: task.author,
+                description: task.description,
+                state: task.state,
+                title: task.title } },
+            as: :json
       expect(response).to have_http_status(:success)
     end
   end
