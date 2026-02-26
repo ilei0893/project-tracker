@@ -1,7 +1,7 @@
 one:
   email: user1@example.com
-  password: password123
+  password_digest: password123
 
 two:
   email: user2@example.com
-  password: password456
+  password_digest: password456

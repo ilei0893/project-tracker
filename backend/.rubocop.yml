@@ -51,3 +51,7 @@ Layout/FirstHashElementLineBreak:
   Enabled: true
 Layout/MultilineHashKeyLineBreaks:
   Enabled: true
+Layout/EndAlignment:
+  Enabled: true
+Layout/IndentationWidth:
+  Enabled: true
