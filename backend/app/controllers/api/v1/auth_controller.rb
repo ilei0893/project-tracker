@@ -20,7 +20,7 @@ class Api::V1::AuthController < ApplicationController
     if user.save
       head :created
     else
-      render json: user.errors.full_messages, status: :unprocessable_entity
+      render json: user.errors.full_messages, status: :unprocessable_content
     end
   end
 

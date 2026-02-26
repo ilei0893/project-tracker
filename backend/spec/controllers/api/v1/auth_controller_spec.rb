@@ -30,7 +30,7 @@ RSpec.describe Api::V1::AuthController, type: :request do
           headers: auth_headers(token),
           params: { password: "password", password_confirmation: "password" }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(JSON.parse(response.body)).to include("Email can't be blank")
       end
 
@@ -39,7 +39,7 @@ RSpec.describe Api::V1::AuthController, type: :request do
           headers: auth_headers(token),
           params: { email: "user@example.com", password: "password", password_confirmation: "wrong" }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(JSON.parse(response.body)).to include("Password confirmation doesn't match Password")
       end
 
@@ -50,7 +50,7 @@ RSpec.describe Api::V1::AuthController, type: :request do
           headers: auth_headers(token),
           params: { email: "user@example.com", password: "password", password_confirmation: "password" }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(JSON.parse(response.body)).to include("Email has already been taken")
       end
 
