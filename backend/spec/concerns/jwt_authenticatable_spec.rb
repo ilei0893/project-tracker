@@ -44,8 +44,18 @@ RSpec.describe JWTAuthenticatable, type: :controller do
     end
 
     it "sets a unique jti claim" do
-      first_token = JWT.decode(controller.encode(user), Rails.application.credentials.jwt_secret, true, { algorithm: "HS256" })
-      second_token = JWT.decode(controller.encode(user), Rails.application.credentials.jwt_secret, true, { algorithm: "HS256" })
+      first_token = JWT.decode(
+        controller.encode(user),
+        Rails.application.credentials.jwt_secret,
+        true,
+        { algorithm: "HS256" }
+      )
+      second_token = JWT.decode(
+        controller.encode(user),
+        Rails.application.credentials.jwt_secret,
+        true,
+        { algorithm: "HS256" }
+      )
 
       expect(first_token.first["jti"]).not_to eq(second_token.first["jti"])
     end
@@ -53,10 +63,8 @@ RSpec.describe JWTAuthenticatable, type: :controller do
 
   describe "#authenticate" do
     context "with a valid token" do
-      before { request.headers["Authorization"] = "Bearer #{token}" }
-
       it "allows the request through" do
-        get :index
+        get :index, headers: { 'Authorization' => "Bearer #{token}" }
 
         expect(response).to have_http_status(:ok)
       end

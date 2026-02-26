@@ -31,6 +31,7 @@ Layout/FirstHashElementIndentation:
   Enabled: true
 Layout/ArgumentAlignment:
   Enabled: true
+  EnforcedStyle: with_fixed_indentation
 Layout/ClosingParenthesisIndentation:
   Enabled: true
 Layout/ClosingHeredocIndentation:
