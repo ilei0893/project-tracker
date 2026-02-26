@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe AuthController, type: :request do
+RSpec.describe Api::V1::AuthController, type: :request do
   describe "POST /register" do
     context "with valid params" do
       let(:valid_params) do

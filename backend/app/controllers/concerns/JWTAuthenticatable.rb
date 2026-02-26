@@ -40,25 +40,25 @@ module JWTAuthenticatable
     JWT.decode(token, Rails.application.credentials.jwt_secret, "HS256")
   end
 
-    private
-      def get_token
-        request.headers["Authorization"].split(" ").last
-      end
-
-      def current_user
-        decoded = decode
-        decoded.first["data"].with_indifferent_access
-      end
-
-      def authenticate
-        begin
-          if current_user
-            current_user
-          else
-            render json: { error: "Unauthorized" }, status: :unauthorized
-          end
-          rescue JWT::ExpiredSignature
-            render json: { error: "Token has expired" }, status: :unauthorized
+  private
+    def get_token
+      request.headers["Authorization"].split(" ").last
         end
+
+    def current_user
+      decoded = decode
+      decoded.first["data"].with_indifferent_access
+    end
+
+    def authenticate
+      begin
+        if current_user
+          current_user
+        else
+          render json: { error: "Unauthorized" }, status: :unauthorized
+        end
+            rescue JWT::ExpiredSignature
+              render json: { error: "Token has expired" }, status: :unauthorized
       end
+    end
 end
