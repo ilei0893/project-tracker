@@ -10,6 +10,8 @@ AllCops:
     - "Rakefile"
     - "config.ru"
 
+Layout/IndentationConsistency:
+  Enabled: true
 Layout/SpaceInsideArrayLiteralBrackets:
   Enabled: false
 Style/FrozenStringLiteralComment:
