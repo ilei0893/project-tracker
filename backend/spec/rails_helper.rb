@@ -10,6 +10,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require "rspec/rails"
 
 # Add additional requires below this line. Rails is not loaded until this point!
+require_relative "support/auth_helpers"
 
 begin
   ActiveRecord::Migration.maintain_test_schema!
@@ -27,4 +28,12 @@ RSpec.configure do |config|
 
   # Filter Rails gems from backtraces
   config.filter_rails_from_backtrace!
+  config.include AuthHelpers, type: :request
+  config.include_context "authenticated", type: :request
+  Shoulda::Matchers.configure do |config|
+    config.integrate do |with|
+      with.test_framework :rspec
+      with.library :rails
+    end
+  end
 end
