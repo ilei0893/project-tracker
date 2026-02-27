@@ -64,7 +64,8 @@ RSpec.describe JWTAuthenticatable, type: :controller do
   describe "#authenticate" do
     context "with a valid token" do
       it "allows the request through" do
-        get :index, headers: { 'Authorization' => "Bearer #{token}" }
+        request.headers['Authorization'] = "Bearer #{token}"
+        get :index
 
         expect(response).to have_http_status(:ok)
       end
