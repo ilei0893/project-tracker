@@ -6,7 +6,13 @@ RSpec.describe Api::V1::AuthController, type: :request do
   describe "POST /api/v1/register" do
     context "with valid params" do
       let(:valid_params) do
-        { auth: { email: "user@example.com", password: "password", password_confirmation: "password" } }
+        {
+          auth: {
+            email: "user@example.com",
+            first_name: "Ariana",
+            last_name: "Grande",
+            password: "password",
+            password_confirmation: "password" } }
       end
 
       it "creates a user and returns 201" do
@@ -28,7 +34,12 @@ RSpec.describe Api::V1::AuthController, type: :request do
       it "returns 422 when email is missing" do
         post "/api/v1/register",
           headers: auth_headers(token),
-          params: { auth: { password: "password", password_confirmation: "password" } }
+          params: {
+            auth: {
+              first_name: "Ariana",
+              last_name: "Grande",
+              password: "password",
+              password_confirmation: "password" } }
 
         expect(response).to have_http_status(:unprocessable_content)
         expect(JSON.parse(response.body)).to include("Email can't be blank")
@@ -37,18 +48,36 @@ RSpec.describe Api::V1::AuthController, type: :request do
       it "returns 422 when password confirmation does not match" do
         post "/api/v1/register",
           headers: auth_headers(token),
-          params: { auth: { email: "user@example.com", password: "password", password_confirmation: "wrong" } }
+          params: {
+            auth: {
+              email: "user@example.com",
+              first_name: "Ariana",
+              last_name: "Grande",
+              password: "password",
+              password_confirmation: "wrong" } }
 
         expect(response).to have_http_status(:unprocessable_content)
         expect(JSON.parse(response.body)).to include("Password confirmation doesn't match Password")
       end
 
       it "returns 422 when email is already taken" do
-        User.create!(email: "user@example.com", password: "password", password_confirmation: "password")
+        User.create!(
+          email: "user@example.com",
+          first_name: "Ariana",
+          last_name: "Grande",
+          password: "password",
+          password_confirmation: "password"
+        )
 
         post "/api/v1/register",
           headers: auth_headers(token),
-          params: { auth: { email: "user@example.com", password: "password", password_confirmation: "password" } }
+          params: {
+            auth: {
+              email: "user@example.com",
+              first_name: "Ariana",
+              last_name: "Grande",
+              password: "password",
+              password_confirmation: "password" } }
 
         expect(response).to have_http_status(:unprocessable_content)
         expect(JSON.parse(response.body)).to include("Email has already been taken")
@@ -58,14 +87,26 @@ RSpec.describe Api::V1::AuthController, type: :request do
         expect {
           post "/api/v1/register",
             headers: auth_headers(token),
-            params: { auth: { email: "", password: "password", password_confirmation: "password" } }
+            params: {
+              auth: {
+                email: "",
+                first_name: "Ariana",
+                last_name: "Grande",
+                password: "password",
+                password_confirmation: "password" } }
         }.not_to change(User, :count)
       end
     end
   end
 
   describe "POST /api/v1/login" do
-    let(:user) { User.create!(email: "user@example.com", password: "password", password_confirmation: "password") }
+    let(:user) { User.create!(
+      email: "user@example.com",
+      first_name: "Ariana",
+      last_name: "Grande",
+      password: "password",
+      password_confirmation: "password"
+    ) }
 
     context "with valid credentials" do
       it "returns 200 with a token" do

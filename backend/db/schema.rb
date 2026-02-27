@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_26_053231) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_27_202936) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -28,7 +28,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_26_053231) do
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.index ["first_name"], name: "index_users_on_first_name"
+    t.index ["last_name"], name: "index_users_on_last_name"
     t.unique_constraint ["email"]
   end
 end
