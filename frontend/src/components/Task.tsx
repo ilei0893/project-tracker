@@ -1,7 +1,7 @@
 import { type Dispatch, type SetStateAction } from "react";
 import type { TaskData } from "../types/types";
+import { tasksClient } from "../client";
 
-const apiUrl = import.meta.env.VITE_BASE_URL;
 interface TaskProps {
   task: TaskData;
   setTasks: Dispatch<SetStateAction<TaskData[]>>;
@@ -29,13 +29,7 @@ export default function Task({
   async function deleteTask(e: React.MouseEvent) {
     e.stopPropagation();
     try {
-      const res = await fetch(`${apiUrl}/tasks/${task.id}`, {
-        method: "DELETE",
-      });
-
-      if (!res.ok) {
-        throw new Error("Post couldnt be deleted");
-      }
+      await tasksClient.delete(task.id);
 
       setTasks((prev) => prev.filter((item) => item.id !== task.id));
     } catch (e) {

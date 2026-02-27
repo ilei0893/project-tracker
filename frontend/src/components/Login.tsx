@@ -1,7 +1,11 @@
 import { Link } from "react-router";
+import { authClient } from "../client.ts";
 
 export default function Login() {
-  function login() {}
+  function login(formData: FormData) {
+    {
+    }
+  }
   return (
     <div className="auth-container">
       <div className="auth-content">

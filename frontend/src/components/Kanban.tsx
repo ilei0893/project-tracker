@@ -1,11 +1,11 @@
-import type { TaskData, TaskResponse } from "../types/types";
+import type { TaskData } from "../types/types";
+import { tasksClient } from "../client";
 import { useEffect, useRef, useState } from "react";
 import TaskSection from "./TaskSection";
 import Task from "./Task";
 import CreateTaskForm from "./CreateTaskForm";
 import TaskModal from "./TaskModal";
 
-const apiUrl = import.meta.env.VITE_BASE_URL;
 export default function Kanban() {
   const states = ["Backlog", "Todo", "In Progress", "Completed"];
   const [selectedState, setSelectedState] = useState<string | null>(null);
@@ -18,22 +18,8 @@ export default function Kanban() {
   useEffect(() => {
     const getTasks = async () => {
       try {
-        const res = await fetch(`${apiUrl}/tasks`);
-        const json = await res.json();
-
-        if (!res.ok) {
-          throw new Error("Couldn't get tasks");
-        }
-        const normalizedJson = json.map((taskItem: TaskResponse) => ({
-          id: taskItem.id,
-          title: taskItem.title,
-          description: taskItem.description,
-          author: taskItem.author,
-          state: taskItem.state,
-          createdAt: taskItem.created_at,
-          updatedAt: taskItem.updated_at,
-        }));
-        setTasks(normalizedJson);
+        const res = await tasksClient.getAll();
+        setTasks(res);
       } catch (e) {
         console.log(e);
       }
@@ -53,12 +39,7 @@ export default function Kanban() {
     const id = draggingId.current;
 
     try {
-      const res = await fetch(`${apiUrl}/tasks/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ task: { state } }),
-      });
-      const json = await res.json();
+      const res = await tasksClient.update(id, { state: state });
 
       setTasks((prev) =>
         prev.map((task) =>
@@ -66,8 +47,8 @@ export default function Kanban() {
             ? {
                 ...task,
                 state,
-                createdAt: json.created_at,
-                updatedAt: json.updated_at,
+                createdAt: res.createdAt,
+                updatedAt: res.updatedAt,
               }
             : task,
         ),

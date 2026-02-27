@@ -38,7 +38,14 @@ describe("Task", () => {
   describe("when deleting", () => {
     describe("with res ok", () => {
       beforeEach(() => {
-        vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: true }));
+        vi.stubGlobal(
+          "fetch",
+          vi.fn().mockResolvedValue({
+            ok: true,
+            status: 204,
+            json: vi.fn().mockResolvedValue({}),
+          }),
+        );
       });
 
       describe("with pointer", () => {
@@ -90,7 +97,14 @@ describe("Task", () => {
 
     describe("with res not ok", () => {
       beforeEach(() => {
-        vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ ok: false }));
+        vi.stubGlobal(
+          "fetch",
+          vi.fn().mockResolvedValue({
+            ok: false,
+            status: 422,
+            json: vi.fn().mockResolvedValue({ error: "something failed" }),
+          }),
+        );
       });
 
       it("does not call setTasks", async () => {

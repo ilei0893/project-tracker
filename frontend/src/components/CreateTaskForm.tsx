@@ -1,7 +1,6 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { TaskData } from "../types/types";
-
-const apiUrl = import.meta.env.VITE_BASE_URL;
+import { tasksClient } from "../client";
 
 function stateClass(state: string) {
   return `state__badge state__badge--${state.toLowerCase().replace(/\s+/g, "-")}`;
@@ -22,34 +21,23 @@ export default function CreateTaskForm({
   }
 
   async function createTask(formData: FormData) {
-    const res = await fetch(`${apiUrl}/tasks`, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        title: formData.get("title") as string,
-        author: "Ivan Lei",
-        description: formData.get("description") as string,
-        state: formData.get("state") as string,
-      }),
+    const res = await tasksClient.create({
+      title: formData.get("title") as string,
+      author: "Ivan Lei",
+      description: formData.get("description") as string,
+      state: formData.get("state") as string,
     });
-
-    if (!res.ok) {
-      throw new Error("Post couldnt be created");
-    }
-    const json = await res.json();
 
     setTasks((prev) => [
       ...prev,
       {
-        id: json.id,
-        title: json.title,
-        author: json.author,
-        description: json.description,
-        state: json.state,
-        createdAt: json.created_at,
-        updatedAt: json.updated_at,
+        id: res.id,
+        title: res.title,
+        author: res.author,
+        description: res.description,
+        state: res.state,
+        createdAt: res.createdAt,
+        updatedAt: res.updatedAt,
       },
     ]);
     setSelectedState(null);
