@@ -31,6 +31,6 @@ class Api::V1::AuthController < ApplicationController
       end
 
       def register_params
-        params.expect(auth: [:email, :password, :password_confirmation])
+        params.expect(auth: [:email, :password, :password_confirmation, :first_name, :last_name])
       end
 end

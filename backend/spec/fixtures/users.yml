@@ -1,7 +1,11 @@
 one:
   email: user1@example.com
+  first_name: Ariana
+  last_name: Grande
   password_digest: password123
 
 two:
   email: user2@example.com
+  first_name: Bruno
+  last_name: Mars
   password_digest: password456
