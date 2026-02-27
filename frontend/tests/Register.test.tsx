@@ -24,6 +24,12 @@ describe("Register", () => {
     ).toBeInTheDocument();
   });
 
+  it("renders a first name field", () => {
+    expect(screen.getByLabelText(/first name/i)).toBeInTheDocument();
+  });
+  it("renders a last name field", () => {
+    expect(screen.getByLabelText(/last name/i)).toBeInTheDocument();
+  });
   it("renders an email field", () => {
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
   });
@@ -47,6 +53,18 @@ describe("Register", () => {
   });
 
   describe("accessibility", () => {
+    it("associates the first name  with its input", () => {
+      expect(screen.getByLabelText(/first name/i)).toHaveAttribute(
+        "id",
+        "firstName",
+      );
+    });
+    it("associates the last name label with its input", () => {
+      expect(screen.getByLabelText(/last name/i)).toHaveAttribute(
+        "id",
+        "lastName",
+      );
+    });
     it("associates the email label with its input", () => {
       expect(screen.getByLabelText(/email/i)).toHaveAttribute("id", "email");
     });
@@ -65,6 +83,18 @@ describe("Register", () => {
       );
     });
 
+    it("sets the first name input type to text", () => {
+      expect(screen.getByLabelText(/first name/i)).toHaveAttribute(
+        "type",
+        "text",
+      );
+    });
+    it("sets the last name input type to text", () => {
+      expect(screen.getByLabelText(/last name/i)).toHaveAttribute(
+        "type",
+        "text",
+      );
+    });
     it("sets the email input type to email", () => {
       expect(screen.getByLabelText(/email/i)).toHaveAttribute("type", "email");
     });
@@ -112,6 +142,8 @@ describe("Register", () => {
       });
 
       it("calls the API", async () => {
+        await user.type(screen.getAllByLabelText(/first name/i)[0], "Ariana");
+        await user.type(screen.getAllByLabelText(/last name/i)[0], "Grande");
         await user.type(
           screen.getAllByLabelText(/email/i)[0],
           "new@example.com",
@@ -144,6 +176,9 @@ describe("Register", () => {
       });
 
       it("stays on the register page", async () => {
+        await user.type(screen.getAllByLabelText(/first name/i)[0], "Ariana");
+        await user.type(screen.getAllByLabelText(/last name/i)[0], "Grande");
+
         await user.type(
           screen.getAllByLabelText(/email/i)[0],
           "existing@example.com",
@@ -165,6 +200,8 @@ describe("Register", () => {
       });
 
       it("displays an error", async () => {
+        await user.type(screen.getAllByLabelText(/first name/i)[0], "Ariana");
+        await user.type(screen.getAllByLabelText(/last name/i)[0], "Grande");
         await user.type(
           screen.getAllByLabelText(/email/i)[0],
           "existing@example.com",
@@ -186,6 +223,8 @@ describe("Register", () => {
 
     describe("when passwords do not match", () => {
       it("stays on the register page", async () => {
+        await user.type(screen.getAllByLabelText(/first name/i)[0], "Ariana");
+        await user.type(screen.getAllByLabelText(/last name/i)[0], "Grande");
         await user.type(screen.getByLabelText(/email/i), "user@example.com");
         await user.type(screen.getByLabelText(/^password$/i), "password-one");
         await user.type(
@@ -199,6 +238,8 @@ describe("Register", () => {
       });
 
       it("displays a mismatch error", async () => {
+        await user.type(screen.getAllByLabelText(/first name/i)[0], "Ariana");
+        await user.type(screen.getAllByLabelText(/last name/i)[0], "Grande");
         await user.type(screen.getByLabelText(/email/i), "user@example.com");
         await user.type(screen.getByLabelText(/^password$/i), "password-one");
         await user.type(
@@ -211,6 +252,8 @@ describe("Register", () => {
 
       it("does not call the API", async () => {
         vi.stubGlobal("fetch", vi.fn());
+        await user.type(screen.getAllByLabelText(/first name/i)[0], "Ariana");
+        await user.type(screen.getAllByLabelText(/last name/i)[0], "Grande");
         await user.type(screen.getByLabelText(/email/i), "user@example.com");
         await user.type(screen.getByLabelText(/^password$/i), "password-one");
         await user.type(
@@ -233,6 +276,8 @@ describe("Register", () => {
 
     describe("with an invalid email format", () => {
       it("stays on the register page", async () => {
+        await user.type(screen.getAllByLabelText(/first name/i)[0], "Ariana");
+        await user.type(screen.getAllByLabelText(/last name/i)[0], "Grande");
         await user.type(screen.getByLabelText(/email/i), "not-an-email");
         await user.type(screen.getByLabelText(/^password$/i), "some-pass");
         await user.type(
