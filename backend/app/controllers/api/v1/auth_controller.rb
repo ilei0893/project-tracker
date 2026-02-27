@@ -27,10 +27,10 @@ class Api::V1::AuthController < ApplicationController
     private
 
       def login_params
-        params.permit(:email, :password)
+        params.expect(auth: [:email, :password])
       end
 
       def register_params
-        params.permit(:email, :password, :password_confirmation)
+        params.expect(auth: [:email, :password, :password_confirmation])
       end
 end

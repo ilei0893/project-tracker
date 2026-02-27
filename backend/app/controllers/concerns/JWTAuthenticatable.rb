@@ -16,23 +16,23 @@ module JWTAuthenticatable
   def encode(payload)
     now = Time.now.to_i
     JWT.encode(
-    {
-      data: {
-        id: payload.id,
-        email: payload.email
+      {
+        data: {
+          id: payload.id,
+          email: payload.email
+        },
+        exp: now + 15.minutes.to_i,
+        iat: now,
+        jti: SecureRandom.uuid,
+        sub: "User"
       },
-      exp: now + 15,
-      iat: now,
-      jti: SecureRandom.uuid,
-      sub: "User"
-    },
-    Rails.application.credentials.jwt_secret,
-    "HS256",
-    {
-      typ: "JWT",
-      alg: "HS256"
-    }
-  )
+      Rails.application.credentials.jwt_secret,
+      "HS256",
+      {
+        typ: "JWT",
+        alg: "HS256"
+      }
+    )
   end
 
   def decode
@@ -43,7 +43,7 @@ module JWTAuthenticatable
   private
     def get_token
       request.headers["Authorization"].split(" ").last
-        end
+    end
 
     def current_user
       decoded = decode

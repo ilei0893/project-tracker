@@ -15,7 +15,7 @@ function normalizeTask(raw: TaskResponse): TaskData {
 }
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const token = localStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...(options.headers as Record<string, string>),
@@ -27,12 +27,11 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 
   const res = await fetch(`${BASE_URL}${path}`, { ...options, headers });
 
-  if (res.status === 204) return undefined as T;
-
-  const json = await res.json();
+  const text = await res.text();
+  const json = text ? JSON.parse(text) : undefined;
 
   if (!res.ok) {
-    throw new Error(json.error ?? "Request failed");
+    throw new Error(json?.error ?? "Request failed");
   }
 
   return json as T;

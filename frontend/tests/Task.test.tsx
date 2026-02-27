@@ -42,8 +42,7 @@ describe("Task", () => {
           "fetch",
           vi.fn().mockResolvedValue({
             ok: true,
-            status: 204,
-            json: vi.fn().mockResolvedValue({}),
+            text: vi.fn().mockResolvedValue(""),
           }),
         );
       });

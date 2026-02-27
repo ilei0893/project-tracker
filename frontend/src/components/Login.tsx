@@ -1,9 +1,18 @@
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { authClient } from "../client.ts";
 
 export default function Login() {
-  function login(formData: FormData) {
-    {
+  const navigate = useNavigate();
+  async function login(formData: FormData) {
+    try {
+      const res = await authClient.login(
+        formData.get("email") as string,
+        formData.get("password") as string,
+      );
+      sessionStorage.setItem("token", res.token);
+      navigate("/");
+    } catch (e) {
+      console.error(e);
     }
   }
   return (

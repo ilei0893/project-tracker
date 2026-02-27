@@ -61,7 +61,7 @@ describe("Register", () => {
     it("associates the confirm password label with its input", () => {
       expect(screen.getByLabelText(/confirm password/i)).toHaveAttribute(
         "id",
-        "password-confirmation",
+        "passwordConfirmation",
       );
     });
 
@@ -112,13 +112,21 @@ describe("Register", () => {
       });
 
       it("calls the API", async () => {
-        await user.type(screen.getAllByLabelText(/email/i)[0], "new@example.com");
-        await user.type(screen.getAllByLabelText(/^password$/i)[0], "secure-pass");
+        await user.type(
+          screen.getAllByLabelText(/email/i)[0],
+          "new@example.com",
+        );
+        await user.type(
+          screen.getAllByLabelText(/^password$/i)[0],
+          "secure-pass",
+        );
         await user.type(
           screen.getAllByLabelText(/confirm password/i)[0],
           "secure-pass",
         );
-        await user.click(screen.getAllByRole("button", { name: /register/i })[0]);
+        await user.click(
+          screen.getAllByRole("button", { name: /register/i })[0],
+        );
         expect(fetch).toHaveBeenCalled();
       });
     });
@@ -140,12 +148,17 @@ describe("Register", () => {
           screen.getAllByLabelText(/email/i)[0],
           "existing@example.com",
         );
-        await user.type(screen.getAllByLabelText(/^password$/i)[0], "some-pass");
+        await user.type(
+          screen.getAllByLabelText(/^password$/i)[0],
+          "some-pass",
+        );
         await user.type(
           screen.getAllByLabelText(/confirm password/i)[0],
           "some-pass",
         );
-        await user.click(screen.getAllByRole("button", { name: /register/i })[0]);
+        await user.click(
+          screen.getAllByRole("button", { name: /register/i })[0],
+        );
         expect(
           screen.getAllByRole("heading", { name: /register/i })[0],
         ).toBeInTheDocument();
@@ -156,12 +169,17 @@ describe("Register", () => {
           screen.getAllByLabelText(/email/i)[0],
           "existing@example.com",
         );
-        await user.type(screen.getAllByLabelText(/^password$/i)[0], "some-pass");
+        await user.type(
+          screen.getAllByLabelText(/^password$/i)[0],
+          "some-pass",
+        );
         await user.type(
           screen.getAllByLabelText(/confirm password/i)[0],
           "some-pass",
         );
-        await user.click(screen.getAllByRole("button", { name: /register/i })[0]);
+        await user.click(
+          screen.getAllByRole("button", { name: /register/i })[0],
+        );
         expect(screen.getByRole("alert")).toBeInTheDocument();
       });
     });
