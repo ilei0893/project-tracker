@@ -79,6 +79,8 @@ export const authClient = {
 
   register(
     email: string,
+    firstName: string,
+    lastName: string,
     password: string,
     passwordConfirmation: string,
   ): Promise<void> {
@@ -86,6 +88,8 @@ export const authClient = {
       method: "POST",
       body: JSON.stringify({
         email,
+        first_name: firstName,
+        last_name: lastName,
         password,
         password_confirmation: passwordConfirmation,
       }),

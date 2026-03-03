@@ -16,6 +16,8 @@ export default function Register() {
     try {
       await authClient.register(
         formData.get("email") as string,
+        formData.get("firstName") as string,
+        formData.get("lastName") as string,
         password,
         passwordConfirmation,
       );
@@ -30,6 +32,15 @@ export default function Register() {
       <div className="auth-content">
         <h3>Register</h3>
         <form action={register} className="auth-form">
+          <div>
+            <label htmlFor="firstName">First Name</label>
+            <input id="firstName" type="text" name="firstName"></input>
+          </div>
+          <div>
+            <label htmlFor="lastName">Last Name</label>
+            <input id="lastName" type="text" name="lastName"></input>
+          </div>
+
           <div>
             <label htmlFor="email">Email</label>
             <input id="email" type="email" name="email"></input>

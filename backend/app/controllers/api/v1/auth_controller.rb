@@ -20,7 +20,7 @@ class Api::V1::AuthController < ApplicationController
     if user.save
       head :created
     else
-      render json: user.errors.full_messages, status: :unprocessable_content
+      render json: user.errors.full_messages.join(", "), status: :unprocessable_content
     end
   end
 
@@ -31,6 +31,6 @@ class Api::V1::AuthController < ApplicationController
       end
 
       def register_params
-        params.expect(auth: [:email, :password, :password_confirmation])
+        params.expect(auth: [:email, :password, :password_confirmation, :first_name, :last_name])
       end
 end
