@@ -1,6 +1,8 @@
-import type { TaskData } from "../types/types";
+import type { TaskData, MyJwtPayload } from "../types/types";
 import { tasksClient } from "../client";
 import { useEffect, useRef, useState } from "react";
+import { useSetUser } from "../context/UserContext.ts";
+import { jwtDecode } from "jwt-decode";
 import TaskSection from "./TaskSection";
 import Task from "./Task";
 import CreateTaskForm from "./CreateTaskForm";
@@ -14,6 +16,20 @@ export default function Kanban() {
   const [tasks, setTasks] = useState<TaskData[]>([]);
   const draggingId = useRef<number | null>(null);
   const draggingState = useRef<string | null>(null);
+  const setUser = useSetUser();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decoded = jwtDecode<MyJwtPayload>(token);
+      setUser?.({
+        id: decoded.data.id,
+        email: decoded.data.email,
+        firstName: decoded.data.first_name,
+        lastName: decoded.data.last_name,
+      });
+    }
+  }, [setUser]);
 
   useEffect(() => {
     const getTasks = async () => {

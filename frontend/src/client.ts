@@ -1,4 +1,4 @@
-import type { TaskData, TaskResponse } from "./types/types";
+import type { TaskData, TaskResponse, UserResponse } from "./types/types";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -15,7 +15,7 @@ function normalizeTask(raw: TaskResponse): TaskData {
 }
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
-  const token = sessionStorage.getItem("token");
+  const token = localStorage.getItem("token");
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...(options.headers as Record<string, string>),
@@ -70,11 +70,13 @@ export const tasksClient = {
 };
 
 export const authClient = {
-  login(email: string, password: string): Promise<{ token: string }> {
-    return request<{ token: string }>("/api/v1/login", {
+  async login(email: string, password: string): Promise<{ token: string }> {
+    const data = await request<UserResponse>("/api/v1/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });
+
+    return data;
   },
 
   register(

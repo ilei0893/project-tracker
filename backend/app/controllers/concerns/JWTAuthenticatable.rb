@@ -19,7 +19,9 @@ module JWTAuthenticatable
       {
         data: {
           id: payload.id,
-          email: payload.email
+          email: payload.email,
+          first_name: payload.first_name,
+          last_name: payload.last_name
         },
         exp: now + 15.minutes.to_i,
         iat: now,
