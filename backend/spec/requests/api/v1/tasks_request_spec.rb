@@ -19,7 +19,6 @@ RSpec.describe Api::V1::TasksController, type: :request do
 
   describe "POST /tasks" do
     it "creates a new task" do
-      binding.irb
       expect {
         post api_v1_tasks_url,
           params: {

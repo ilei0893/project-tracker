@@ -15,6 +15,8 @@ RSpec.describe User, type: :model do
 
   describe "associations" do
     it { is_expected.to have_many(:refresh_tokens).dependent(:destroy) }
+    it { is_expected.to have_many(:task_viewers).dependent(:destroy)  }
+    it { is_expected.to have_many(:viewable_tasks).through(:task_viewers) }
   end
 
   describe "email normalization" do
