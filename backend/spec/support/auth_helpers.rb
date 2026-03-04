@@ -5,10 +5,6 @@ module AuthHelpers
     { 'Authorization' => "Bearer #{token}" }
   end
 
-  def auth_cookies(token)
-    { 'access_token' => token }
-  end
-
   RSpec.shared_context "authenticated" do
       let(:token) do
           now = Time.now.to_i

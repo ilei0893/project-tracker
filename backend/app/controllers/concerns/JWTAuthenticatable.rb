@@ -44,7 +44,7 @@ module JWTAuthenticatable
 
   private
     def get_token
-      cookies[:access_token] || request.headers["Authorization"]&.split(" ")&.last
+      request.headers["Authorization"].split(" ").last
     end
 
     def current_user
@@ -59,10 +59,8 @@ module JWTAuthenticatable
         else
           render json: { error: "Unauthorized" }, status: :unauthorized
         end
-      rescue JWT::ExpiredSignature
-        render json: { error: "Token has expired" }, status: :unauthorized
-      rescue JWT::DecodeError, NoMethodError
-        render json: { error: "Unauthorized" }, status: :unauthorized
+            rescue JWT::ExpiredSignature
+              render json: { error: "Token has expired" }, status: :unauthorized
       end
     end
 end

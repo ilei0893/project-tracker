@@ -10,20 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_03_225341) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_27_202936) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
-
-  create_table "refresh_tokens", force: :cascade do |t|
-    t.string "token_digest", null: false
-    t.bigint "user_id", null: false
-    t.datetime "expires_at", null: false
-    t.datetime "revoked_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["token_digest"], name: "index_refresh_tokens_on_token_digest", unique: true
-    t.index ["user_id"], name: "index_refresh_tokens_on_user_id"
-  end
 
   create_table "tasks", force: :cascade do |t|
     t.string "title", null: false
@@ -45,6 +34,4 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_03_225341) do
     t.index ["last_name"], name: "index_users_on_last_name"
     t.unique_constraint ["email"]
   end
-
-  add_foreign_key "refresh_tokens", "users"
 end

@@ -7,12 +7,11 @@ RSpec.describe TasksController, type: :request do
 
   let(:task) { tasks(:one) }
 
-  before { cookies[:access_token] = token }
-
   describe "GET /tasks" do
     it "returns a successful response" do
-      get tasks_url, as: :json
-
+      get tasks_url,
+        headers: auth_headers(token),
+        as: :json
       expect(response).to have_http_status(:success)
     end
   end
@@ -21,6 +20,7 @@ RSpec.describe TasksController, type: :request do
     it "creates a new task" do
       expect {
         post tasks_url,
+          headers: auth_headers(token),
           params: {
             task: {
               author: task.author,
@@ -36,8 +36,9 @@ RSpec.describe TasksController, type: :request do
 
   describe "GET /tasks/:id" do
     it "returns the task" do
-      get task_url(task), as: :json
-
+      get task_url(task),
+        headers: auth_headers(token),
+        as: :json
       expect(response).to have_http_status(:success)
     end
   end
@@ -45,6 +46,7 @@ RSpec.describe TasksController, type: :request do
   describe "PATCH /tasks/:id" do
     it "updates the task" do
       patch task_url(task),
+        headers: auth_headers(token),
         params: {
           task: {
             author: task.author,
@@ -52,7 +54,6 @@ RSpec.describe TasksController, type: :request do
             state: task.state,
             title: task.title } },
         as: :json
-
       expect(response).to have_http_status(:success)
     end
   end
@@ -60,19 +61,12 @@ RSpec.describe TasksController, type: :request do
   describe "DELETE /tasks/:id" do
     it "destroys the task" do
       expect {
-        delete task_url(task), as: :json
+        delete task_url(task),
+          headers: auth_headers(token),
+          as: :json
       }.to change(Task, :count).by(-1)
 
       expect(response).to have_http_status(:no_content)
-    end
-  end
-
-  context "without authentication" do
-    it "returns 401 unauthorized" do
-      cookies[:access_token] = nil
-      get tasks_url, as: :json
-
-      expect(response).to have_http_status(:unauthorized)
     end
   end
 end

@@ -2,5 +2,4 @@
 
 class ApplicationController < ActionController::API
   include JWTAuthenticatable
-  include ActionController::Cookies
 end

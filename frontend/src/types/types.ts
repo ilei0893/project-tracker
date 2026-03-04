@@ -16,10 +16,8 @@ export type UserData = {
 };
 
 export type UserResponse = {
-  refresh_token: string;
-  user: {
-    id: number;
-    email: string;
+  token: string;
+  user: Pick<UserData, "id" | "email"> & {
     first_name: string;
     last_name: string;
   };

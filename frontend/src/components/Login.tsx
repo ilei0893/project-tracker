@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router";
 import { authClient } from "../client.ts";
 import { useSetUser } from "../context/UserContext.ts";
-import { setRefreshToken, setStoredUser } from "../auth.ts";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -12,15 +11,8 @@ export default function Login() {
         formData.get("email") as string,
         formData.get("password") as string,
       );
-      setRefreshToken(res.refresh_token);
-      const userData = {
-        id: res.user.id,
-        email: res.user.email,
-        firstName: res.user.first_name,
-        lastName: res.user.last_name,
-      };
-      setStoredUser(userData);
-      setUser?.(userData);
+      localStorage.setItem("token", res.token);
+      setUser?.(res.user);
       navigate("/");
     } catch (e) {
       console.error(e);

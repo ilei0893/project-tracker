@@ -1,9 +1,8 @@
-import type { TaskData } from "../types/types";
+import type { TaskData, MyJwtPayload } from "../types/types";
 import { tasksClient } from "../client";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router";
 import { useSetUser } from "../context/UserContext.ts";
-import { getRefreshToken, getStoredUser } from "../auth.ts";
+import { jwtDecode } from "jwt-decode";
 import TaskSection from "./TaskSection";
 import Task from "./Task";
 import CreateTaskForm from "./CreateTaskForm";
@@ -18,34 +17,31 @@ export default function Kanban() {
   const draggingId = useRef<number | null>(null);
   const draggingState = useRef<string | null>(null);
   const setUser = useSetUser();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!getRefreshToken()) {
-      navigate("/login");
-      return;
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decoded = jwtDecode<MyJwtPayload>(token);
+      setUser?.({
+        id: decoded.data.id,
+        email: decoded.data.email,
+        firstName: decoded.data.first_name,
+        lastName: decoded.data.last_name,
+      });
     }
-
-    // Restore user context from localStorage
-    const storedUser = getStoredUser();
-    if (storedUser) {
-      setUser?.(storedUser);
-    }
-  }, [setUser, navigate]);
+  }, [setUser]);
 
   useEffect(() => {
-    if (!getRefreshToken()) return;
-
     const getTasks = async () => {
       try {
         const res = await tasksClient.getAll();
         setTasks(res);
-      } catch {
-        navigate("/login");
+      } catch (e) {
+        console.log(e);
       }
     };
     getTasks();
-  }, [navigate]);
+  }, []);
 
   const setDragging = (task: TaskData | null) => {
     draggingId.current = task?.id ?? null;
