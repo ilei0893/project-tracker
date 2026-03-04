@@ -42,6 +42,20 @@ class Api::V1::AuthController < ApplicationController
     end
   end
 
+  def logout
+    raw_token = params[:refresh_token]
+    digest = Digest::SHA256.hexdigest(raw_token.to_s)
+    existing = RefreshToken.active.find_by(token_digest: digest)
+
+    if existing
+      existing.revoke!
+      cookies.delete(:access_token)
+      head :ok
+    else
+      render json: { error: "Logout failed" }, status: :unprocessable_content
+    end
+  end
+
     private
 
       def login_params
