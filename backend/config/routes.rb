@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     namespace :v1 do
       post "/register", to: "auth#register"
       post "/login",  to: "auth#login"
+      post "/logout",  to: "auth#logout"
+      post "/refresh", to: "auth#refresh"
     end
   end
 end

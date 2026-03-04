@@ -377,3 +377,34 @@ main {
 .button__create:hover {
   background-color: #6d01a0;
 }
+
+.settings-menu {
+  position: absolute;
+  right: 25px;
+  border: 1px solid gray;
+  width: 150px;
+  border-radius: 6px;
+  background-color: white;
+}
+
+.settings-menu ul {
+  display: flex;
+  flex-direction: column;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.settings-menu li {
+  height: 40px;
+}
+.settings-menu button {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-family: Inter, Helvetica;
+  cursor: pointer;
+}
