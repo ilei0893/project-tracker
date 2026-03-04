@@ -192,4 +192,49 @@ RSpec.describe Api::V1::AuthController, type: :request do
       end
     end
   end
+
+  describe "POST /api/v1/logout" do
+    before { cookies[:access_token] = token }
+
+    context "with a valid refresh token" do
+      let(:raw_token) { RefreshToken.generate_for(user) }
+
+      it "returns 200" do
+        post "/api/v1/logout", params: { refresh_token: raw_token }
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "revokes the refresh token" do
+        post "/api/v1/logout", params: { refresh_token: raw_token }
+
+        digest = Digest::SHA256.hexdigest(raw_token)
+        expect(RefreshToken.find_by(token_digest: digest).revoked_at).to be_present
+      end
+
+      it "clears the access_token cookie" do
+        post "/api/v1/logout", params: { refresh_token: raw_token }
+
+        expect(cookies[:access_token]).to be_blank
+      end
+    end
+
+    context "with an invalid refresh token" do
+      it "returns 422" do
+        post "/api/v1/logout", params: { refresh_token: "bogus" }
+
+        expect(response).to have_http_status(:unprocessable_content)
+        expect(JSON.parse(response.body)).to include("error" => "Logout failed")
+      end
+    end
+
+    context "without authentication" do
+      it "returns 401" do
+        cookies[:access_token] = nil
+        post "/api/v1/logout", params: { refresh_token: "anything" }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end

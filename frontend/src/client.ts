@@ -1,9 +1,5 @@
 import type { TaskData, TaskResponse, UserResponse } from "./types/types";
-import {
-  getRefreshToken,
-  setRefreshToken,
-  clearRefreshToken,
-} from "./auth";
+import { getRefreshToken, setRefreshToken, clearRefreshToken } from "./auth";
 
 const BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -54,7 +50,8 @@ async function refreshAccessToken(): Promise<boolean> {
 
 function extractError(json: unknown): string {
   if (Array.isArray(json)) return json.join(", ");
-  if (json && typeof json === "object" && "error" in json) return String((json as Record<string, unknown>).error);
+  if (json && typeof json === "object" && "error" in json)
+    return String((json as Record<string, unknown>).error);
   return "Request failed";
 }
 
@@ -139,10 +136,7 @@ export const tasksClient = {
 };
 
 export const authClient = {
-  async login(
-    email: string,
-    password: string,
-  ): Promise<UserResponse> {
+  async login(email: string, password: string): Promise<UserResponse> {
     const data = await request<UserResponse>("/api/v1/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
@@ -167,6 +161,13 @@ export const authClient = {
         password,
         password_confirmation: passwordConfirmation,
       }),
+    });
+  },
+
+  logout(): Promise<void> {
+    return request<void>("/api/v1/logout", {
+      method: "POST",
+      body: JSON.stringify({ refresh_token: getRefreshToken() }),
     });
   },
 };
