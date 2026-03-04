@@ -3,6 +3,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_person_name
+  has_many :refresh_tokens, dependent: :destroy
 
   normalizes :email, with: ->(e) { e.strip.downcase }
   validates :email, presence: true, uniqueness: true
