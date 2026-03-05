@@ -1,17 +1,18 @@
-# Be sure to restart your server when you modify this file.
+ # Be sure to restart your server when you modify this file.
 
+ # Read more: https://github.com/cyu/rack-cors
 
-# Read more: https://github.com/cyu/rack-cors
+ Rails.application.config.middleware.insert_before 0, Rack::Cors do
+   allow do
+     if Rails.env.development?
+       origins "http://localhost:5173"
+     elsif Rails.env.production?
+       origins "https://https://project-tracker-frontend-ppsl.onrender.com"
+     end
 
-if Rails.env.development?
-  Rails.application.config.middleware.insert_before 0, Rack::Cors do
-    allow do
-      origins "http://localhost:5173"
-
-      resource "*",
-        headers: :any,
-        methods: [ :get, :post, :put, :patch, :delete, :options, :head ],
-        credentials: true
-    end
-  end
-end
+     resource "*",
+       headers: :any,
+       methods: [ :get, :post, :put, :patch, :delete, :options, :head ],
+       credentials: true
+   end
+ end
