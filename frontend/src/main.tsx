@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router";
 import { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { type User } from "./context/UserContext";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import AuthLayout from "./components/AuthLayout.tsx";
 import Register from "./components/Register.tsx";
 import Login from "./components/Login.tsx";
@@ -16,7 +17,7 @@ function Root() {
       <UserContext.Provider value={user}>
         <UserSetterContext.Provider value={setUser}>
           <Routes>
-            <Route index element={<App />} />
+            <Route index element={<ProtectedRoute><App /></ProtectedRoute>} />
             <Route element={<AuthLayout />}>
               <Route path="login" element={<Login />} />
               <Route path="register" element={<Register />} />

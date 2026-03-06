@@ -21,17 +21,11 @@ export default function Kanban() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!getRefreshToken()) {
-      navigate("/login");
-      return;
-    }
-
-    // Restore user context from localStorage
     const storedUser = getStoredUser();
     if (storedUser) {
       setUser?.(storedUser);
     }
-  }, [setUser, navigate]);
+  }, [setUser]);
 
   useEffect(() => {
     if (!getRefreshToken()) return;
