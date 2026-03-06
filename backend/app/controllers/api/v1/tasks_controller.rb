@@ -5,7 +5,7 @@ class Api::V1::TasksController < ApplicationController
 
   # GET /tasks
   def index
-    @tasks = Task.all
+    @tasks = current_user.viewable_tasks
 
     render json: @tasks
   end
@@ -20,6 +20,7 @@ class Api::V1::TasksController < ApplicationController
     @task = Task.new(task_params)
 
     if @task.save
+      TaskViewer.create!(task: @task, user: current_user)
       render json: @task, status: :created, location: api_v1_task_url(@task)
     else
       render json: @task.errors, status: :unprocessable_content

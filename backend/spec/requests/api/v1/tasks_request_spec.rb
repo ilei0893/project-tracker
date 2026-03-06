@@ -3,9 +3,10 @@
 require "rails_helper"
 
 RSpec.describe Api::V1::TasksController, type: :request do
-  fixtures :tasks
+  fixtures :tasks, :users, :task_viewers
 
   let(:task) { tasks(:one) }
+  let(:user) { users(:one) }
 
   before { cookies[:access_token] = token }
 
@@ -14,6 +15,18 @@ RSpec.describe Api::V1::TasksController, type: :request do
       get api_v1_tasks_url, as: :json
 
       expect(response).to have_http_status(:success)
+    end
+
+    it "shows viewable tasks" do
+      task_viewer = task_viewers(:one)
+
+      get api_v1_tasks_url, as: :json
+
+      non_viewable_task = tasks(:two)
+      parsed_response = JSON.parse(response.body)
+
+      expect(parsed_response).to include(a_hash_including("title" => task.title))
+      expect(parsed_response).not_to include(a_hash_including("title" => non_viewable_task.title))
     end
   end
 
@@ -29,6 +42,21 @@ RSpec.describe Api::V1::TasksController, type: :request do
               title: task.title } },
           as: :json
       }.to change(Task, :count).by(1)
+
+      expect(response).to have_http_status(:created)
+    end
+
+    it "creates a Task Viewer" do
+      expect {
+       post api_v1_tasks_url,
+         params: {
+           task: {
+             author: task.author,
+             description: task.description,
+             state: task.state,
+             title: task.title } },
+         as: :json
+     }.to change(TaskViewer, :count).by(1)
 
       expect(response).to have_http_status(:created)
     end

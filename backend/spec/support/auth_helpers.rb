@@ -14,7 +14,7 @@ module AuthHelpers
           now = Time.now.to_i
           JWT.encode(
             {
-              data: { id: 1, email: "test@test.com" },
+              data: { id: user.id, email: user.email },
               exp: now + 900,
               iat: now,
               jti: SecureRandom.uuid,
