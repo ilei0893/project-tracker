@@ -105,7 +105,7 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
 
 export const tasksClient = {
   async getAll(): Promise<TaskData[]> {
-    const data = await request<TaskResponse[]>("/tasks");
+    const data = await request<TaskResponse[]>("/api/v1/tasks");
     return data.map(normalizeTask);
   },
 
@@ -115,7 +115,7 @@ export const tasksClient = {
     description: string;
     state: string;
   }): Promise<TaskData> {
-    const data = await request<TaskResponse>("/tasks", {
+    const data = await request<TaskResponse>("/api/v1/tasks", {
       method: "POST",
       body: JSON.stringify(body),
     });
@@ -123,7 +123,7 @@ export const tasksClient = {
   },
 
   async update(id: number, body: { state: string }): Promise<TaskData> {
-    const data = await request<TaskResponse>(`/tasks/${id}`, {
+    const data = await request<TaskResponse>(`/api/v1/tasks/${id}`, {
       method: "PATCH",
       body: JSON.stringify({ task: body }),
     });
@@ -131,7 +131,7 @@ export const tasksClient = {
   },
 
   delete(id: number): Promise<void> {
-    return request<void>(`/tasks/${id}`, { method: "DELETE" });
+    return request<void>(`/api/v1/tasks/${id}`, { method: "DELETE" });
   },
 };
 

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe TasksController, type: :request do
+RSpec.describe Api::V1::TasksController, type: :request do
   fixtures :tasks
 
   let(:task) { tasks(:one) }
@@ -11,7 +11,7 @@ RSpec.describe TasksController, type: :request do
 
   describe "GET /tasks" do
     it "returns a successful response" do
-      get tasks_url, as: :json
+      get api_v1_tasks_url, as: :json
 
       expect(response).to have_http_status(:success)
     end
@@ -19,8 +19,9 @@ RSpec.describe TasksController, type: :request do
 
   describe "POST /tasks" do
     it "creates a new task" do
+      binding.irb
       expect {
-        post tasks_url,
+        post api_v1_tasks_url,
           params: {
             task: {
               author: task.author,
@@ -36,7 +37,7 @@ RSpec.describe TasksController, type: :request do
 
   describe "GET /tasks/:id" do
     it "returns the task" do
-      get task_url(task), as: :json
+      get api_v1_tasks_url(task), as: :json
 
       expect(response).to have_http_status(:success)
     end
@@ -44,7 +45,7 @@ RSpec.describe TasksController, type: :request do
 
   describe "PATCH /tasks/:id" do
     it "updates the task" do
-      patch task_url(task),
+      patch api_v1_task_url(task),
         params: {
           task: {
             author: task.author,
@@ -60,7 +61,7 @@ RSpec.describe TasksController, type: :request do
   describe "DELETE /tasks/:id" do
     it "destroys the task" do
       expect {
-        delete task_url(task), as: :json
+        delete api_v1_task_url(task), as: :json
       }.to change(Task, :count).by(-1)
 
       expect(response).to have_http_status(:no_content)
@@ -70,7 +71,7 @@ RSpec.describe TasksController, type: :request do
   context "without authentication" do
     it "returns 401 unauthorized" do
       cookies[:access_token] = nil
-      get tasks_url, as: :json
+      get api_v1_tasks_url, as: :json
 
       expect(response).to have_http_status(:unauthorized)
     end
