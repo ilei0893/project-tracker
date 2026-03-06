@@ -42,27 +42,25 @@ module JWTAuthenticatable
     JWT.decode(token, Rails.application.credentials.jwt_secret, "HS256")
   end
 
+  def current_user
+    @current_user ||= User.find(current_user_information[:id])
+  end
+
   private
     def get_token
       cookies[:access_token] || request.headers["Authorization"]&.split(" ")&.last
     end
 
-    def current_user
+    def current_user_information
       decoded = decode
       decoded.first["data"].with_indifferent_access
     end
 
     def authenticate
-      begin
-        if current_user
-          current_user
-        else
-          render json: { error: "Unauthorized" }, status: :unauthorized
-        end
-      rescue JWT::ExpiredSignature
-        render json: { error: "Token has expired" }, status: :unauthorized
-      rescue JWT::DecodeError, NoMethodError
-        render json: { error: "Unauthorized" }, status: :unauthorized
-      end
+      current_user_information
+    rescue JWT::ExpiredSignature
+      render json: { error: "Token has expired" }, status: :unauthorized
+    rescue JWT::DecodeError, NoMethodError
+      render json: { error: "Unauthorized" }, status: :unauthorized
     end
 end
