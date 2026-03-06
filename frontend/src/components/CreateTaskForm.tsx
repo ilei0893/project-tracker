@@ -1,6 +1,7 @@
 import type { Dispatch, SetStateAction } from "react";
 import type { TaskData } from "../types/types";
 import { tasksClient } from "../client";
+import { useUser } from "../context/UserContext";
 
 function stateClass(state: string) {
   return `state__badge state__badge--${state.toLowerCase().replace(/\s+/g, "-")}`;
@@ -19,11 +20,12 @@ export default function CreateTaskForm({
   function closeForm() {
     setSelectedState(null);
   }
+  const user = useUser();
 
   async function createTask(formData: FormData) {
     const res = await tasksClient.create({
       title: formData.get("title") as string,
-      author: "Ivan Lei",
+      author: formData.get("author") as string,
       description: formData.get("description") as string,
       state: formData.get("state") as string,
     });
@@ -97,8 +99,17 @@ export default function CreateTaskForm({
                 </div>
                 <div className="metadata__item">
                   <span className="metadata__label">Author</span>
-                  <span className="metadata__value">Ivan Lei</span>
+                  <span className="metadata__value">
+                    {user?.firstName + " " + user?.lastName}
+                  </span>
                 </div>
+
+                <input
+                  type="hidden"
+                  name="author"
+                  value={`${user?.firstName + " " + user?.lastName}`}
+                  required
+                />
                 <div className="form__submit">
                   <button type="submit" className="button__create">
                     Create Task
