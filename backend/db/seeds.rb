@@ -12,12 +12,21 @@ User.create(
   email: "user1@example.com",
   first_name: "Ariana",
   last_name: "Grande",
-  password_digest: "password123"
+  password: "password"
 )
 
 User.create(
-  email: " user2@example.com",
+  email: "user2@example.com",
   first_name: "Bruno",
   last_name: "Mars",
-  password_digest: "password456"
+  password: "password"
 )
+
+Task.create(
+  title: "example title",
+  description: "example description",
+  author: "#{User.first.name}",
+  state: "In Progress"
+)
+
+TaskViewer.create(task: Task.first, user: User.first)
