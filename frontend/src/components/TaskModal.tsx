@@ -2,7 +2,7 @@ import { useState, type Dispatch, type SetStateAction } from "react";
 import type { TaskData } from "../types/types";
 import { tasksClient } from "../client";
 interface TaskModalProps {
-  task: TaskData;
+  task: TaskData | null;
   hidden: boolean;
   setHidden: Dispatch<SetStateAction<boolean>>;
   setTasks: Dispatch<SetStateAction<TaskData[]>>;
@@ -23,7 +23,12 @@ function formatDate(dateStr: string) {
   });
 }
 
-export default function TaskModal({ task, hidden, setHidden, setTasks }: TaskModalProps) {
+export default function TaskModal({
+  task,
+  hidden,
+  setHidden,
+  setTasks,
+}: TaskModalProps) {
   const [isEditing, setIsEditing] = useState(false);
 
   function closeForm() {
@@ -36,14 +41,16 @@ export default function TaskModal({ task, hidden, setHidden, setTasks }: TaskMod
   }
 
   async function editTask(formData: FormData) {
-    const updated = await tasksClient.update(task.id, {
-      title: formData.get("title") as string,
-      author: formData.get("author") as string,
-      description: formData.get("description") as string,
-      state: formData.get("state") as string,
-    });
-    setTasks((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
-    setIsEditing(false);
+    if (task) {
+      const updated = await tasksClient.update(task.id, {
+        title: formData.get("title") as string,
+        author: formData.get("author") as string,
+        description: formData.get("description") as string,
+        state: formData.get("state") as string,
+      });
+      setTasks((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
+      setIsEditing(false);
+    }
   }
   return (
     <>

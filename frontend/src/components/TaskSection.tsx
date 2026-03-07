@@ -33,7 +33,7 @@ export default function TaskSection({
           +
         </button>
       </header>
-      {children}
+      <div className="project__content">{children}</div>
     </div>
   );
 }

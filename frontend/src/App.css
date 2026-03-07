@@ -9,6 +9,7 @@ main {
   justify-content: center;
   margin: 20px;
   flex: 1;
+  overflow: hidden;
 }
 
 .auth-layout {
@@ -113,13 +114,25 @@ main {
 }
 
 .project__column {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.project__content {
   display: flex;
   flex-direction: column;
   gap: 10px;
   min-width: 250px;
-  padding: 10px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  scrollbar-gutter: stable;
 }
 
+.project__content:hover {
+  scrollbar-color: gray transparent;
+}
 .project__header {
   display: flex;
   justify-content: space-between;
@@ -132,8 +145,7 @@ main {
   justify-content: space-between;
   text-align: left;
   font-family: Inter, Helvetica;
-  min-height: 70px;
-  height: 100px;
+  min-height: 100px;
   border: solid;
   border-width: 1px;
   border-color: rgb(124, 124, 124);
