@@ -110,7 +110,7 @@ export default function CreateTaskForm({
                   value={`${user?.firstName + " " + user?.lastName}`}
                   required
                 />
-                <div className="form__submit">
+                <div className="form__button">
                   <button type="submit" className="button__create">
                     Create Task
                   </button>

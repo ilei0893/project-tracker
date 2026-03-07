@@ -122,7 +122,10 @@ export const tasksClient = {
     return normalizeTask(data);
   },
 
-  async update(id: number, body: { state: string }): Promise<TaskData> {
+  async update(
+    id: number,
+    body: Partial<{ title: string; author: string; description: string; state: string }>,
+  ): Promise<TaskData> {
     const data = await request<TaskResponse>(`/api/v1/tasks/${id}`, {
       method: "PATCH",
       body: JSON.stringify({ task: body }),

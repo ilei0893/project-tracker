@@ -13,8 +13,9 @@ export default function Kanban() {
   const states = ["Backlog", "Todo", "In Progress", "Completed"];
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [hidden, setHidden] = useState(true);
-  const [currentTask, setCurrentTask] = useState<TaskData | null>(null);
+  const [currentTaskId, setCurrentTaskId] = useState<number | null>(null);
   const [tasks, setTasks] = useState<TaskData[]>([]);
+  const currentTask = tasks.find((t) => t.id === currentTaskId) ?? null;
   const draggingId = useRef<number | null>(null);
   const draggingState = useRef<string | null>(null);
   const setUser = useSetUser();
@@ -73,7 +74,7 @@ export default function Kanban() {
   };
 
   function onSelect(task: TaskData) {
-    setCurrentTask(task);
+    setCurrentTaskId(task.id);
     setHidden((prev) => !prev);
   }
 
@@ -84,7 +85,7 @@ export default function Kanban() {
         selectedState={selectedState}
         setSelectedState={setSelectedState}
       />
-      <TaskModal task={currentTask} hidden={hidden} setHidden={setHidden} />
+      <TaskModal task={currentTask} hidden={hidden} setHidden={setHidden} setTasks={setTasks} />
       <section className="project__list">
         {states.map((state) => {
           return (
