@@ -152,10 +152,23 @@ main {
   border-radius: 6px;
   padding: 10px;
 }
-
-.project__listItem:hover {
+.project__listItem:not(--loading):hover {
   border-color: #8702b8;
   cursor: pointer;
+}
+.project__listItem__loading__bar {
+  border-radius: 99px;
+  background: linear-gradient(-45deg, #eee 40%, #fafafa 50%, #eee 60%);
+  background-size: 300%;
+  background-position-x: 100%;
+  animation: shimmer 1s infinite linear;
+  height: 15px;
+}
+
+@keyframes shimmer {
+  to {
+    background-position-x: 0%;
+  }
 }
 
 .project__listItem div:first-child {
