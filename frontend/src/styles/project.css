@@ -1,0 +1,104 @@
+.project__list {
+  display: flex;
+}
+
+.project__column {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.project__content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 250px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  scrollbar-gutter: stable;
+}
+
+.project__content:hover {
+  scrollbar-color: gray transparent;
+}
+.project__header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.project__listItem {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  font-family: Inter, Helvetica;
+  min-height: 100px;
+  border: solid;
+  border-width: 1px;
+  border-color: rgb(124, 124, 124);
+  border-radius: 6px;
+  padding: 10px;
+}
+.project__listItem:not(--loading):hover {
+  border-color: #8702b8;
+  cursor: pointer;
+}
+.project__listItem__loading__bar {
+  border-radius: 99px;
+  background: linear-gradient(-45deg, #eee 40%, #fafafa 50%, #eee 60%);
+  background-size: 300%;
+  background-position-x: 100%;
+  animation: shimmer 1s infinite linear;
+  height: 15px;
+}
+
+@keyframes shimmer {
+  to {
+    background-position-x: 0%;
+  }
+}
+
+.project__listItem div:first-child {
+  display: flex;
+  justify-content: space-between;
+}
+
+.project__listItem-delete {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.button__add {
+  border-radius: 6px;
+  border-width: 1px;
+}
+
+.button__add:hover {
+  cursor: pointer;
+}
+
+.state__badge {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: white;
+  padding: 3px 10px;
+  border-radius: 99px;
+  width: fit-content;
+}
+
+.state__badge--backlog {
+  background-color: #6b7280;
+}
+.state__badge--todo {
+  background-color: #3b82f6;
+}
+.state__badge--in-progress {
+  background-color: #f59e0b;
+}
+.state__badge--completed {
+  background-color: #10b981;
+}

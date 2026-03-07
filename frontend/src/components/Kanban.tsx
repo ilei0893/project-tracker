@@ -34,7 +34,6 @@ export default function Kanban() {
     if (!getRefreshToken()) return;
 
     const getTasks = async () => {
-      console.log(loading);
       try {
         const res = await tasksClient.getAll();
         setTasks(res);
