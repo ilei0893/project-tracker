@@ -39,14 +39,14 @@ RSpec.describe Api::V1::AuthController, type: :request do
         post "/api/v1/register", params: { auth: user_params.merge(email: "") }
 
         expect(response).to have_http_status(:unprocessable_content)
-        expect(JSON.parse(response.body)).to include("Email can't be blank")
+        expect(JSON.parse(response.body)).to include("email" => ["can't be blank"])
       end
 
       it "returns 422 when password confirmation does not match" do
         post "/api/v1/register", params: { auth: user_params.merge(password_confirmation: "wrong") }
 
         expect(response).to have_http_status(:unprocessable_content)
-        expect(JSON.parse(response.body)).to include("Password confirmation doesn't match Password")
+        expect(JSON.parse(response.body)).to include("password_confirmation" => ["doesn't match Password"])
       end
 
       it "returns 422 when email is already taken" do
@@ -54,7 +54,7 @@ RSpec.describe Api::V1::AuthController, type: :request do
         post "/api/v1/register", params: { auth: user_params }
 
         expect(response).to have_http_status(:unprocessable_content)
-        expect(JSON.parse(response.body)).to include("Email has already been taken")
+        expect(JSON.parse(response.body)).to include("email" => ["has already been taken"])
       end
 
       it "does not create a user when params are invalid" do
