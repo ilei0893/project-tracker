@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useSetUser } from "../context/UserContext.ts";
 import { getRefreshToken, getStoredUser } from "../auth.ts";
+import TaskPlaceholder from "./TaskPlaceholder.tsx";
 import TaskSection from "./TaskSection";
 import Task from "./Task";
 import CreateTaskForm from "./CreateTaskForm";
@@ -15,6 +16,7 @@ export default function Kanban() {
   const [hidden, setHidden] = useState(true);
   const [currentTaskId, setCurrentTaskId] = useState<number | null>(null);
   const [tasks, setTasks] = useState<TaskData[]>([]);
+  const [loading, setLoading] = useState(true);
   const currentTask = tasks.find((t) => t.id === currentTaskId) ?? null;
   const draggingId = useRef<number | null>(null);
   const draggingState = useRef<string | null>(null);
@@ -37,6 +39,8 @@ export default function Kanban() {
         setTasks(res);
       } catch {
         navigate("/login");
+      } finally {
+        setLoading(false);
       }
     };
     getTasks();
@@ -85,7 +89,12 @@ export default function Kanban() {
         selectedState={selectedState}
         setSelectedState={setSelectedState}
       />
-      <TaskModal task={currentTask} hidden={hidden} setHidden={setHidden} setTasks={setTasks} />
+      <TaskModal
+        task={currentTask}
+        hidden={hidden}
+        setHidden={setHidden}
+        setTasks={setTasks}
+      />
       <section className="project__list">
         {states.map((state) => {
           return (
@@ -95,24 +104,28 @@ export default function Kanban() {
               onDrop={onDrop}
               state={state}
             >
-              {tasks
-                .filter((task) => task.state === state)
-                .sort(
-                  (a, b) =>
-                    new Date(b.updatedAt).getTime() -
-                    new Date(a.updatedAt).getTime(),
-                )
-                .map((task) => {
-                  return (
-                    <Task
-                      key={task.id}
-                      task={task}
-                      setTasks={setTasks}
-                      setDragging={setDragging}
-                      onSelect={onSelect}
-                    />
-                  );
-                })}
+              {loading ? (
+                <TaskPlaceholder />
+              ) : (
+                tasks
+                  .filter((task) => task.state === state)
+                  .sort(
+                    (a, b) =>
+                      new Date(b.updatedAt).getTime() -
+                      new Date(a.updatedAt).getTime(),
+                  )
+                  .map((task) => {
+                    return (
+                      <Task
+                        key={task.id}
+                        task={task}
+                        setTasks={setTasks}
+                        setDragging={setDragging}
+                        onSelect={onSelect}
+                      />
+                    );
+                  })
+              )}
             </TaskSection>
           );
         })}
