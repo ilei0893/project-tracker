@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { authClient } from "../client.ts";
 import { useSetUser } from "../context/UserContext.ts";
@@ -6,6 +7,8 @@ import { setRefreshToken, setStoredUser } from "../auth.ts";
 export default function Login() {
   const navigate = useNavigate();
   const setUser = useSetUser();
+  const [error, setError] = useState<string | null>(null);
+
   async function login(formData: FormData) {
     try {
       const res = await authClient.login(
@@ -23,7 +26,11 @@ export default function Login() {
       setUser?.(userData);
       navigate("/");
     } catch (e) {
-      console.error(e);
+      setError(
+        e instanceof Error
+          ? e.message
+          : "Login failed, try again or ask Ivan for help lol",
+      );
     }
   }
   return (
@@ -39,7 +46,7 @@ export default function Login() {
             <label htmlFor="password">Password</label>
             <input id="password" type="password" name="password"></input>
           </div>
-
+          {error && <span className="error">{error}</span>}
           <button>Login</button>
         </form>
         <a href="#" rel="noopener" target="_blank">

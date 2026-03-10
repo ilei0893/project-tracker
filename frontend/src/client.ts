@@ -88,8 +88,6 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
       return retryJson as T;
     } else {
       clearRefreshToken();
-      window.location.href = "/login";
-      throw new Error("Session expired");
     }
   }
 
@@ -97,6 +95,9 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const json = text ? JSON.parse(text) : undefined;
 
   if (!res.ok) {
+    if (json && typeof json === "object" && !("error" in json)) {
+      throw json;
+    }
     throw new Error(extractError(json));
   }
 
@@ -124,7 +125,12 @@ export const tasksClient = {
 
   async update(
     id: number,
-    body: Partial<{ title: string; author: string; description: string; state: string }>,
+    body: Partial<{
+      title: string;
+      author: string;
+      description: string;
+      state: string;
+    }>,
   ): Promise<TaskData> {
     const data = await request<TaskResponse>(`/api/v1/tasks/${id}`, {
       method: "PATCH",

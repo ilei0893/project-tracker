@@ -1,6 +1,7 @@
 import { type Dispatch, type SetStateAction } from "react";
 import type { TaskData } from "../types/types";
 import { tasksClient } from "../client";
+import { toast } from "react-toastify";
 
 interface TaskProps {
   task: TaskData;
@@ -33,7 +34,7 @@ export default function Task({
 
       setTasks((prev) => prev.filter((item) => item.id !== task.id));
     } catch (e) {
-      console.log(e);
+      if (e instanceof Error) toast.error(e.message);
     }
   }
 

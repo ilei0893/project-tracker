@@ -2,6 +2,7 @@ import type { Dispatch, SetStateAction } from "react";
 import type { TaskData } from "../types/types";
 import { tasksClient } from "../client";
 import { useUser } from "../context/UserContext";
+import { toast } from "react-toastify";
 
 function stateClass(state: string) {
   return `state__badge state__badge--${state.toLowerCase().replace(/\s+/g, "-")}`;
@@ -23,26 +24,34 @@ export default function CreateTaskForm({
   const user = useUser();
 
   async function createTask(formData: FormData) {
-    const res = await tasksClient.create({
-      title: formData.get("title") as string,
-      author: formData.get("author") as string,
-      description: formData.get("description") as string,
-      state: formData.get("state") as string,
-    });
+    try {
+      const res = await tasksClient.create({
+        title: formData.get("title") as string,
+        author: formData.get("author") as string,
+        description: formData.get("description") as string,
+        state: formData.get("state") as string,
+      });
 
-    setTasks((prev) => [
-      ...prev,
+      setTasks((prev) => [
+        ...prev,
+        {
+          id: res.id,
+          title: res.title,
+          author: res.author,
+          description: res.description,
+          state: res.state,
+          createdAt: res.createdAt,
+          updatedAt: res.updatedAt,
+        },
+      ]);
+      setSelectedState(null);
+    } catch (e) {
+      const errors = e as Record<string, string[]>;
+      if (errors.title) toast.error(`Title ${errors.title[0]}`);
       {
-        id: res.id,
-        title: res.title,
-        author: res.author,
-        description: res.description,
-        state: res.state,
-        createdAt: res.createdAt,
-        updatedAt: res.updatedAt,
-      },
-    ]);
-    setSelectedState(null);
+        toast.error(`Title ${errors.title[0]}`);
+      }
+    }
   }
   return (
     <>
@@ -76,7 +85,7 @@ export default function CreateTaskForm({
                   name="title"
                   type="text"
                   className="form__input"
-                  placeholder="Story title..."
+                  placeholder="Task title..."
                   required
                 />
                 <label className="form__label" htmlFor="description">

@@ -1,6 +1,8 @@
 import { useState, type Dispatch, type SetStateAction } from "react";
 import type { TaskData } from "../types/types";
 import { tasksClient } from "../client";
+import { toast } from "react-toastify";
+
 interface TaskModalProps {
   task: TaskData | null;
   hidden: boolean;
@@ -42,14 +44,24 @@ export default function TaskModal({
 
   async function editTask(formData: FormData) {
     if (task) {
-      const updated = await tasksClient.update(task.id, {
-        title: formData.get("title") as string,
-        author: formData.get("author") as string,
-        description: formData.get("description") as string,
-        state: formData.get("state") as string,
-      });
-      setTasks((prev) => prev.map((t) => (t.id === updated.id ? updated : t)));
-      setIsEditing(false);
+      try {
+        const updated = await tasksClient.update(task.id, {
+          title: formData.get("title") as string,
+          author: formData.get("author") as string,
+          description: formData.get("description") as string,
+          state: formData.get("state") as string,
+        });
+        setTasks((prev) =>
+          prev.map((t) => (t.id === updated.id ? updated : t)),
+        );
+        setIsEditing(false);
+      } catch (e) {
+        const errors = e as Record<string, string[]>;
+        if (errors.title) toast.error(`Title ${errors.title[0]}`);
+        {
+          toast.error(`Title ${errors.title[0]}`);
+        }
+      }
     }
   }
   return (
@@ -125,7 +137,7 @@ export default function TaskModal({
               </button>
             </div>
             <form action={editTask} className="modal__body">
-              <input type="hidden" name="state" value={task.state} required />
+              <input type="hidden" name="state" value={task.state} />
               <div className="modal__main">
                 <label className="form__label" htmlFor="title">
                   Title
@@ -135,7 +147,7 @@ export default function TaskModal({
                   name="title"
                   type="text"
                   className="form__input"
-                  placeholder="Story title..."
+                  placeholder="Task title..."
                   defaultValue={task.title}
                   required
                 />
