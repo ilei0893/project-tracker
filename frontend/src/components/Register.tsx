@@ -26,18 +26,10 @@ export default function Register() {
         setformError(e.message);
       } else {
         const errors = e as Record<string, string[]>;
-        const fieldLabels: Record<string, string> = {
-          first_name: "First Name",
-          last_name: "Last Name",
-          email: "Email",
-          password: "Password",
-        };
-        const formatErrors = (key: string) =>
-          errors[key]?.map((msg) => `${fieldLabels[key]} ${msg}`).join(", ");
-        if (errors.first_name) setfirstNameError(formatErrors("first_name")!);
-        if (errors.last_name) setlastNameError(formatErrors("last_name")!);
-        if (errors.email) setEmailError(formatErrors("email")!);
-        if (errors.password) setPasswordError(formatErrors("password")!);
+        if (errors.first_name) setfirstNameError(errors.first_name[0]);
+        if (errors.last_name) setlastNameError(errors.last_name[0]);
+        if (errors.email) setEmailError(errors.email[0]);
+        if (errors.password) setPasswordError(errors.password[0]);
       }
     }
   }
@@ -49,10 +41,7 @@ export default function Register() {
   }
 
   return (
-    <div
-      className="auth-container"
-      style={{ minHeight: "700px", height: "700px" }}
-    >
+    <div className="auth-container">
       <div className="auth-content">
         <h3>Register</h3>
         <form action={register} className="auth-form">

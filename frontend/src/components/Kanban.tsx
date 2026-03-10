@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { useSetUser } from "../context/UserContext.ts";
 import { getRefreshToken, getStoredUser } from "../auth.ts";
+import { toast } from "react-toastify";
 import TaskPlaceholder from "./TaskPlaceholder.tsx";
 import TaskSection from "./TaskSection";
 import Task from "./Task";
@@ -31,14 +32,16 @@ export default function Kanban() {
   }, [setUser]);
 
   useEffect(() => {
-    if (!getRefreshToken()) return;
+    if (!getRefreshToken()) {
+      navigate("/login");
+    }
 
     const getTasks = async () => {
       try {
         const res = await tasksClient.getAll();
         setTasks(res);
-      } catch {
-        navigate("/login");
+      } catch (e) {
+        if (e instanceof Error) toast.error(e.message);
       } finally {
         setLoading(false);
       }
@@ -73,7 +76,7 @@ export default function Kanban() {
         ),
       );
     } catch (e) {
-      console.log(e);
+      if (e instanceof Error) toast.error(e.message);
     }
   };
 
