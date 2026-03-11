@@ -45,6 +45,7 @@ export default function CreateTaskForm({
         },
       ]);
       setSelectedState(null);
+      toast.success("Task created!");
     } catch (e) {
       const errors = e as Record<string, string[]>;
       if (errors.title) toast.error(`Title ${errors.title[0]}`);

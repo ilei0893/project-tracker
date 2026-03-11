@@ -55,6 +55,7 @@ export default function TaskModal({
           prev.map((t) => (t.id === updated.id ? updated : t)),
         );
         setIsEditing(false);
+        toast.success("Task updated successfully!");
       } catch (e) {
         const errors = e as Record<string, string[]>;
         if (errors.title) toast.error(`Title ${errors.title[0]}`);

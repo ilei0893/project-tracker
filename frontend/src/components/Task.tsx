@@ -33,6 +33,7 @@ export default function Task({
       await tasksClient.delete(task.id);
 
       setTasks((prev) => prev.filter((item) => item.id !== task.id));
+      toast.success("Task deleted!");
     } catch (e) {
       if (e instanceof Error) toast.error(e.message);
     }
