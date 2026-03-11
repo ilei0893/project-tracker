@@ -7,7 +7,7 @@
      if Rails.env.development?
        origins "http://localhost:5173"
      elsif Rails.env.production?
-       origins "https://https://project-tracker-frontend-ppsl.onrender.com"
+       origins "https://projecttracker.ivanlei.com"
      end
 
      resource "*",
